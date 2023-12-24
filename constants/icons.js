@@ -59,10 +59,14 @@ const location = require("../assets/icons/location.png");
 const shopp = require("../assets/icons/shopp.png");
 const rating = require("../assets/icons/rating.png");
 const googleicon = require("../assets/icons/google.svg");
+const remove = require("../assets/icons/remove.png");
+const add = require("../assets/icons/add1.png");
 
 export default {
   googleicon,
   rating,
+  add,
+  remove,
   shopp,
   location,
   car1,

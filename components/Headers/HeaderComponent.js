@@ -10,9 +10,12 @@ import {
   Animated,
 } from "react-native";
 import { COLORS, icons, SIZES, FONTS, images } from "../../constants/index";
+import { useData } from "../../hook/useData";
 // import { useAuth } from "../../hook/useAuth";
 
 const HeaderComponent = ({ scrollY, onPress, Title, messagePress }) => {
+  const { card } = useData();
+
   return (
     <SafeAreaView style={styles.container}>
       <Animated.View
@@ -29,6 +32,20 @@ const HeaderComponent = ({ scrollY, onPress, Title, messagePress }) => {
           <View style={{ flexDirection: "row", alignItems: "center", gap: 20 }}>
             <TouchableOpacity onPress={onPress} style={styles.bellContainer}>
               <Image source={icons.shoppingCart} style={styles.bellIcon} />
+              <Text
+                style={{
+                  top: 0,
+                  right: 0,
+                  position: "absolute",
+                  borderRadius: SIZES.radius,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: COLORS.error,
+                  ...FONTS.h3,
+                }}
+              >
+                {card.length === 0 ? null : card.length}
+              </Text>
             </TouchableOpacity>
           </View>
         </View>

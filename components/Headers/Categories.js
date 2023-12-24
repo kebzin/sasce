@@ -1,17 +1,21 @@
 import React, { useState } from "react";
-import {
-  FlatList,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { FlatList, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { constants, SIZES, FONTS, COLORS } from "../../constants";
+import { useData } from "../../hook/useData";
+import { filterItemsByCategory } from "../../lib/Helpers/FilterHelper";
 
-const Categories = () => {
-  // Initialize activeItem with the id of the first element
+const Categories = ({ data, setData }) => {
+  const { ItemList, setFilter } = useData();
   const [activeItem, setActiveItem] = useState(constants.Category[0].id);
 
+  // hanle the click of the category item and filter base on that category
+  const handleItemClick = (item) => {
+    setActiveItem(item.id);
+    const filteredItems = filterItemsByCategory(data, item.label, ItemList);
+    setData(filteredItems);
+  };
+
+  // render item list of the category
   const renderItem = ({ item }) => {
     const isActive = activeItem === item.id;
 
@@ -24,8 +28,7 @@ const Categories = () => {
             height: 50,
           },
         ]}
-        key={item.id}
-        onPress={() => handleItemClick(item.id)}
+        onPress={() => handleItemClick(item)}
       >
         <Text
           style={{
@@ -41,23 +44,18 @@ const Categories = () => {
     );
   };
 
-  const handleItemClick = (itemId) => {
-    setActiveItem(itemId);
-    // Additional logic or actions when an item is clicked
-  };
-
   return (
     <FlatList
       horizontal
       data={constants.Category}
-      keyExtractor={(item) => item.id}
+      keyExtractor={(item) => item.id.toString()}
       showsVerticalScrollIndicator={false}
       showsHorizontalScrollIndicator={false}
       renderItem={renderItem}
-      extraData={activeItem} // Ensure re-render when activeItem changes
+      extraData={activeItem}
+      contentContainerStyle={{ columnGap: 15 }}
       onEndReachedThreshold={0.1}
-      contentContainerStyle={{ gap: 10 }}
-      onEndReached={() => setActiveItem(null)} // Reset activeItem when reaching the end
+      onEndReached={() => {}}
     />
   );
 };

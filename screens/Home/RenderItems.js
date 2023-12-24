@@ -3,16 +3,23 @@ import ItemImage from "./ItemImage";
 import { COLORS, SIZES, FONTS } from "../../constants";
 import { TextButton } from "../../components/common";
 import { useNavigation } from "@react-navigation/native";
+import { addToCart } from "../../lib/Helpers/AddToCardHelper";
 
-const RenderItems = ({ item }) => {
+const RenderItems = ({ item, setCard, card }) => {
   const navigation = useNavigation();
+
+  console.log(card);
+
+  // function that add to cart
+  const handleAddToCart = () => {
+    addToCart(item, card, setCard);
+  };
   return (
     <View
       style={{
         backgroundColor: COLORS.light,
         shadowColor: COLORS.light,
         elevation: 10,
-
         borderRadius: SIZES.radius,
         flex: 1,
       }}
@@ -65,6 +72,7 @@ const RenderItems = ({ item }) => {
           GMD {item.price}
         </Text>
         <TextButton
+          onPress={() => handleAddToCart(item)}
           label={"Add to cart"}
           labelStyle={{ ...FONTS.body5, color: COLORS.light }}
           contentContainerStyle={{

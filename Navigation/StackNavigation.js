@@ -6,7 +6,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 // import AuthMain from "../screens/Authentication/AuthMain";
 import { Login, Product, Register } from "../screens";
 import TabNavigation from "./TabNavigation";
-import { FONTS } from "../constants";
+import { COLORS, FONTS } from "../constants";
 
 const Stack = createNativeStackNavigator();
 
@@ -33,7 +33,12 @@ const StackNavigation = () => {
       <Stack.Screen
         name="product"
         component={Product}
-        options={screenOptions}
+        options={{
+          headerShadowVisible: false,
+          headerShown: true,
+          headerTitle: "",
+          headerBackButtonMenuEnabled: true,
+        }}
       />
     </Stack.Navigator>
   );

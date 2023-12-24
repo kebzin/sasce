@@ -14,7 +14,7 @@ export default function App() {
   }
   return (
     <NavigationContainer>
-      {/* <StatusBar style="auto" /> */}
+      <StatusBar style="auto" />
       <GestureHandlerRootView style={{ flex: 1 }}>
         <DataProvider>
           <StatusBar style="auto" />
