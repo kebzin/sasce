@@ -1,16 +1,16 @@
 import { Text, View } from "react-native";
-import ItemImage from "./ItemImage";
 import { COLORS, SIZES, FONTS } from "../../constants";
 import { TextButton } from "../../components/common";
 import { useNavigation } from "@react-navigation/native";
-import { addToCart } from "../../lib/Helpers/AddToCardHelper";
+import CartImageCntainer from "./CartImageCntainer";
+import { removeFromCart } from "../../lib/Helpers/AddToCardHelper";
 
-const RenderItems = ({ item, setCard, card }) => {
+const RenderCart = ({ item, setCard, card }) => {
   const navigation = useNavigation();
 
-  // function that add to cart
-  const handleAddToCart = () => {
-    addToCart(item, card, setCard);
+  //function that add to cart
+  const handleRemoveCart = () => {
+    removeFromCart(item, card, setCard);
   };
   return (
     <View
@@ -19,13 +19,15 @@ const RenderItems = ({ item, setCard, card }) => {
         shadowColor: COLORS.light,
         elevation: 10,
         borderRadius: SIZES.radius,
-        flex: 1,
+        display: "flex",
+        flexDirection: "row",
       }}
     >
-      <ItemImage
+      <CartImageCntainer
         ContentContainerStyle={{
-          height: SIZES.width / 2,
-          width: "auto",
+          height: SIZES.width / 2.7,
+          width: SIZES.height / 5.5,
+          flex: 1,
         }}
         image={item.image}
         onImagePress={() => navigation.navigate("product", { item })}
@@ -33,8 +35,8 @@ const RenderItems = ({ item, setCard, card }) => {
       <View
         style={{
           paddingHorizontal: SIZES.base,
-          alignItems: "center",
           paddingVertical: SIZES.padding,
+          flex: 1,
         }}
       >
         <Text
@@ -44,7 +46,6 @@ const RenderItems = ({ item, setCard, card }) => {
             color: COLORS.dark60,
             lineHeight: 18,
             marginTop: 10,
-            textAlign: "center",
           }}
         >
           {item.title}
@@ -52,32 +53,26 @@ const RenderItems = ({ item, setCard, card }) => {
         <View
           style={{
             display: "flex",
-            alignItems: "center",
             flexDirection: "row",
             gap: 10,
           }}
         >
-          <Text
-            style={{ ...FONTS.body5, color: COLORS.grey, textAlign: "center" }}
-          >
-            Category:
-          </Text>
+          <Text style={{ ...FONTS.body5, color: COLORS.grey }}>Category:</Text>
           <Text style={{ color: COLORS.success }}>{item.category}</Text>
         </View>
-        <Text
-          style={{ color: COLORS.success, ...FONTS.h3, textAlign: "center" }}
-        >
+        <Text style={{ color: COLORS.success, ...FONTS.h3 }}>
           GMD {item.price}
         </Text>
         <TextButton
-          onPress={() => handleAddToCart(item)}
-          label={"Add to cart"}
+          onPress={() => handleRemoveCart(item)}
+          label={"Remove product"}
           labelStyle={{ ...FONTS.body5, color: COLORS.light }}
           contentContainerStyle={{
             borderRadius: SIZES.radius,
             height: 40,
-            backgroundColor: COLORS.success,
+            backgroundColor: COLORS.error,
             paddingHorizontal: SIZES.padding,
+            marginTop: SIZES.base,
           }}
         />
       </View>
@@ -85,4 +80,4 @@ const RenderItems = ({ item, setCard, card }) => {
   );
 };
 
-export default RenderItems;
+export default RenderCart;

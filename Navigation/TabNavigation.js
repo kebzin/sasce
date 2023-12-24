@@ -125,7 +125,8 @@ const TabNavigation = () => {
 
           headerShadowVisible: true,
           headerShown: true,
-          headerTitle: "Cart",
+          headerTitle: "My Cart",
+
           headerTitleAlign: "center",
 
           headerBackButtonMenuEnabled: true,

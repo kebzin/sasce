@@ -29,26 +29,6 @@ const Profile = ({ navigation }) => {
             </TouchableOpacity>
           </View>
         </View>
-
-        <View style={styles.counterContainer}>
-          <View style={styles.counterItem}>
-            <Image source={icons.shoppingBag} style={styles.counterIcon} />
-            <View>
-              <Text style={styles.counterValue}>200</Text>
-              <Text style={styles.counterLabel}>Post</Text>
-            </View>
-          </View>
-          <View style={styles.counterItem}>
-            <Image
-              source={icons.exchange}
-              style={[styles.counterIcon, styles.counterExchangeIcon]}
-            />
-            <View>
-              <Text style={styles.counterValue}>200</Text>
-              <Text style={styles.counterLabel}>Exchanges</Text>
-            </View>
-          </View>
-        </View>
       </View>
 
       <ScrollView
@@ -63,28 +43,7 @@ const Profile = ({ navigation }) => {
             description="See your profile info"
             IconRight={icons.arrowRight}
           />
-          <RenderProfileContent
-            onPress={() => navigation.navigate("managePost")}
-            Title={"Manage Post"}
-            IconLeft={icons.gift}
-            description="Manage all your items"
-            IconRight={icons.arrowRight}
-          />
-          <RenderProfileContent
-            Title={"Messages"}
-            IconLeft={icons.bell}
-            IconRight={icons.arrowRight}
-            description="Messages you sent or received"
-          />
-        </View>
-        <View style={styles.shadowContainer}>
-          <RenderProfileContent
-            onPress={() => navigation.navigate("Setting")}
-            Title={"Setting"}
-            IconLeft={icons.setting}
-            description="See your profile info"
-            IconRight={icons.arrowRight}
-          />
+
           <RenderProfileContent
             Title={"Term of use"}
             IconLeft={icons.condition}
@@ -98,6 +57,7 @@ const Profile = ({ navigation }) => {
             description="Messages you sent or received"
           />
         </View>
+
         {/* logout */}
         <TextButton
           // onPress={() => signOut()}
@@ -228,14 +188,12 @@ const styles = StyleSheet.create({
     ...FONTS.body5,
   },
   scrollViewContentContainer: {
-    paddingTop: SIZES.padding * 3,
     paddingBottom: SIZES.padding,
   },
   shadowContainer: {
     backgroundColor: COLORS.light,
     elevation: 2,
     borderRadius: SIZES.base,
-    height: SIZES.padding * 9,
     marginBottom: SIZES.radius - 2,
   },
   loginPromptContainer: {
