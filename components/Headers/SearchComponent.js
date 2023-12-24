@@ -40,20 +40,6 @@ const SearchComponent = ({ scrollY, Onpress, filterPress }) => {
           <Image source={icons.camera} style={style.ImputField} />
         }
       />
-
-      <TouchableOpacity
-        onPress={filterPress}
-        style={{
-          backgroundColor: COLORS.success,
-          padding: SIZES.base,
-          borderRadius: SIZES.radius,
-        }}
-      >
-        <Image
-          source={icons.filter}
-          style={{ width: 30, height: 30, tintColor: COLORS.light }}
-        />
-      </TouchableOpacity>
     </View>
   );
 };

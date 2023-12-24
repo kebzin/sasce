@@ -9,35 +9,34 @@ import {
 import { constants, SIZES, FONTS, COLORS } from "../../constants";
 
 const Categories = () => {
-  const [activeItem, setActiveItem] = useState(null);
+  // Initialize activeItem with the id of the first element
+  const [activeItem, setActiveItem] = useState(constants.Category[0].id);
 
   const renderItem = ({ item }) => {
     const isActive = activeItem === item.id;
 
     return (
       <TouchableOpacity
+        style={[
+          styles.itemContent,
+          {
+            backgroundColor: isActive ? COLORS.success : COLORS.support5_08,
+            height: 50,
+          },
+        ]}
         key={item.id}
-        style={styles.itemContainer}
         onPress={() => handleItemClick(item.id)}
       >
-        <View
-          style={[
-            styles.itemContent,
-            {
-              backgroundColor: isActive ? COLORS.success : COLORS.grey20,
-            },
-          ]}
+        <Text
+          style={{
+            textAlign: "center",
+            padding: SIZES.base,
+            ...FONTS.body4,
+            color: isActive ? COLORS.light : COLORS.dark,
+          }}
         >
-          <Text
-            style={{
-              textAlign: "center",
-              ...FONTS.body4,
-              color: isActive ? COLORS.light : COLORS.dark,
-            }}
-          >
-            {item.label}
-          </Text>
-        </View>
+          {item.label}
+        </Text>
       </TouchableOpacity>
     );
   };
@@ -57,6 +56,7 @@ const Categories = () => {
       renderItem={renderItem}
       extraData={activeItem} // Ensure re-render when activeItem changes
       onEndReachedThreshold={0.1}
+      contentContainerStyle={{ gap: 10 }}
       onEndReached={() => setActiveItem(null)} // Reset activeItem when reaching the end
     />
   );
@@ -65,12 +65,10 @@ const Categories = () => {
 export default Categories;
 
 const styles = StyleSheet.create({
-  itemContainer: {
-    marginRight: SIZES.base,
-  },
   itemContent: {
-    padding: SIZES.base,
     borderRadius: SIZES.radius,
-    width: SIZES.width / 3, // Set the desired width (adjust as needed)
+    flex: 1,
+    width: SIZES.width / 3,
+    // Set the desired width (adjust as needed)
   },
 });
