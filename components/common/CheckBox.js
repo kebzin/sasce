@@ -16,9 +16,9 @@ const CheckBox = ({ containerStyle, isSelected, Onpress }) => {
           alignItems: "center",
           justifyContent: "center",
           borderRadius: SIZES.base,
-          borderWidth: 3,
-          borderColor: isSelected ? COLORS.primary : COLORS.gray,
-          backgroundColor: isSelected ? COLORS.primary : null,
+          borderWidth: 1,
+          borderColor: COLORS.success,
+          backgroundColor: isSelected ? COLORS.success : null,
         }}
       >
         {isSelected && (

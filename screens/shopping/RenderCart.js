@@ -60,8 +60,21 @@ const RenderCart = ({ item, setCard, card }) => {
           <Text style={{ ...FONTS.body5, color: COLORS.grey }}>Category:</Text>
           <Text style={{ color: COLORS.success }}>{item.category}</Text>
         </View>
+        <View
+          style={{
+            display: "flex",
+            alignItems: "center",
+            flexDirection: "row",
+            gap: 20,
+          }}
+        >
+          <Text style={{ ...FONTS.body5, color: COLORS.grey }}>Quantity:</Text>
+          <Text style={{ ...FONTS.h4, color: COLORS.grey }}>
+            {item.quantity}
+          </Text>
+        </View>
         <Text style={{ color: COLORS.success, ...FONTS.h3 }}>
-          GMD {item.price}
+          GMD {item.price * item.quantity}
         </Text>
         <TextButton
           onPress={() => handleRemoveCart(item)}

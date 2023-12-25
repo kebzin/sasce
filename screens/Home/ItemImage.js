@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, Image, TouchableOpacity } from "react-native";
 
 import { IconeBotten } from "../../components/common";
@@ -11,6 +11,7 @@ const ItemImage = ({
   onImagePress,
   image,
 }) => {
+  const [iconLike, setIconeLike] = useState(true);
   return (
     <View
       style={{ position: "relative", ...ContentContainerStyle }}
@@ -43,11 +44,13 @@ const ItemImage = ({
       >
         <IconeBotten
           containerStyle={{}}
-          icone={icons.likeFll}
+          icone={iconLike ? icons.like : icons.likeFll}
           iconeStyle={{
             tintColor: COLORS.error,
+            width: 30,
+            height: 30,
           }}
-          Onpress={ratingPress}
+          Onpress={() => setIconeLike((prev) => !prev)}
         />
       </View>
     </View>

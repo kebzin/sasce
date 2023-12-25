@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { useData } from "../../hook/useData";
-import { TextButton } from "../../components/common";
+import { CheckBox, TextButton } from "../../components/common";
 import { FlatList } from "react-native-gesture-handler";
 import { COLORS, SIZES, FONTS } from "../../constants";
 import RenderCart from "./RenderCart";
 import { StyleSheet, Text, View } from "react-native";
 
 const Shopping = () => {
+  const [check, setCheck] = useState(false);
   const { card, setCard } = useData();
   const quantity = card?.reduce((acc, item) => acc + item?.quantity, 0);
   const totalPrice = card?.reduce((acc, item) => acc + item.price, 0);
@@ -29,17 +30,46 @@ const Shopping = () => {
         />
       </View>
       <View style={styles.shippingInfoContainer}>
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+          }}
+        >
+          <Text style={{ ...FONTS.h5, color: COLORS.grey }}>
+            Nagaw delivery company
+          </Text>
+          <CheckBox isSelected={check} Onpress={() => setCheck(!check)} />
+        </View>
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            marginTop: 5,
+          }}
+        >
+          <Text style={{ ...FONTS.h5, color: COLORS.grey }}>Local pickup</Text>
+          <CheckBox
+            isSelected={check === false ? !check : null}
+            Onpress={() => setCheck(!check)}
+          />
+        </View>
+
         <View style={styles.shippingInfoItem}>
           <Text style={styles.shippingInfoTitle}>Number of items</Text>
           <Text style={styles.shippingInfoPrice}>{quantity}</Text>
         </View>
         <View style={styles.shippingInfoItem}>
           <Text style={styles.shippingInfoTitle}>Shipping</Text>
-          <Text style={styles.shippingInfoPrice}>GMD 300</Text>
+          <Text style={styles.shippingInfoPrice}>GMD {check ? 300 : 0.0}</Text>
         </View>
         <View style={styles.shippingInfoItem}>
           <Text style={styles.shippingInfoTitle}>Sub Total</Text>
-          <Text style={styles.shippingInfoPrice}>GMD {totalPrice}</Text>
+          <Text style={styles.shippingInfoPrice}>
+            GMD {check ? totalPrice + 300 : totalPrice}
+          </Text>
         </View>
         <TextButton
           // onPress={() => handleAddToCart(item)}
@@ -55,7 +85,7 @@ const Shopping = () => {
 const styles = StyleSheet.create({
   contentContainer: {
     paddingHorizontal: SIZES.padding,
-    flex: 3,
+    flex: 2,
   },
   shippingInfoContainer: {
     paddingVertical: SIZES.padding,
