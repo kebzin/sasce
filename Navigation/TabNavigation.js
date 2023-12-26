@@ -52,21 +52,28 @@ const TabNavigation = () => {
             tintColor: focused === true ? COLORS.success : COLORS.grey,
           }}
         />
-
-        <Text
+        <View
           style={{
             top: 0,
             right: 0,
             position: "absolute",
-            borderRadius: SIZES.radius,
+            borderRadius: SIZES.base,
+            backgroundColor: COLORS.error,
+            width: 15,
+            height: 16,
             alignItems: "center",
             justifyContent: "center",
-            color: COLORS.error,
-            ...FONTS.h3,
           }}
         >
-          {card.length === 0 ? null : card.length}
-        </Text>
+          <Text
+            style={{
+              color: COLORS.light,
+              ...FONTS.h5,
+            }}
+          >
+            {card.length === 0 ? null : card.length}
+          </Text>
+        </View>
       </TouchableWithoutFeedback>
     );
   };

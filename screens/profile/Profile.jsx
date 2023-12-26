@@ -12,24 +12,16 @@ import {
 } from "react-native";
 import { IconeBotten, TextButton } from "../../components/common";
 import { COLORS, FONTS, SIZES, icons } from "../../constants";
-// import { useAuth } from "../../hook/useAuth";
+import { useAuth } from "../../hook/useAuth";
 
 // import LoginPopUp from "../../healper/LoginPopUp";
 
 const Profile = ({ navigation }) => {
+  const { session, signOut } = useAuth();
+
   return (
     <View style={styles.container}>
-      <View style={styles.headerTopContainer}>
-        <View style={styles.profileInfoContainer}>
-          {/* <Image src={icons.logo} style={styles.profileImage} /> */}
-          <View style={styles.profileTextContainer}>
-            <Text style={styles.profileName}>kebba waiga </Text>
-            <TouchableOpacity>
-              <Text style={styles.personalInfo}>Personal Info</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </View>
+      <View style={styles.headerTopContainer}></View>
 
       <ScrollView
         contentContainerStyle={styles.scrollViewContentContainer}
@@ -37,7 +29,11 @@ const Profile = ({ navigation }) => {
       >
         <View style={styles.shadowContainer}>
           <RenderProfileContent
-            onPress={() => navigation.navigate("account")}
+            onPress={() => {
+              session === null
+                ? alert("please log in to see your account details")
+                : navigation.navigate("account");
+            }}
             Title={"Account"}
             IconLeft={icons.person2}
             description="See your profile info"
@@ -46,6 +42,7 @@ const Profile = ({ navigation }) => {
 
           <RenderProfileContent
             Title={"Term of use"}
+            onPress={() => navigation.navigate("terms")}
             IconLeft={icons.condition}
             description="Manage all your items"
             IconRight={icons.arrowRight}
@@ -58,31 +55,31 @@ const Profile = ({ navigation }) => {
           />
         </View>
 
-        {/* logout */}
-        <TextButton
-          // onPress={() => signOut()}
-          label={"Log out"}
-          contentContainerStyle={{
-            height: 50,
-            borderRadius: SIZES.radius,
-          }}
-        />
-
+        {session === null ? (
+          <TextButton
+            onPress={() => navigation.navigate("login")}
+            label={"Logg In"}
+            contentContainerStyle={{
+              height: 50,
+              borderRadius: SIZES.radius,
+              backgroundColor: COLORS.success,
+            }}
+            labelStyle={{ color: COLORS.light }}
+          />
+        ) : (
+          <TextButton
+            onPress={() => signOut()}
+            label={"Log out"}
+            contentContainerStyle={{
+              height: 50,
+              borderRadius: SIZES.radius,
+              backgroundColor: COLORS.success,
+            }}
+            labelStyle={{ color: COLORS.light }}
+          />
+        )}
         {/* Repeat the above code blocks for other sections */}
       </ScrollView>
-
-      {/* show the modal prop if not log in */}
-      {/* {
-        <LoginPopUp
-          modalVisible={LoginModalVisible}
-          navigation={navigation}
-          setModalVisible={setLoginModalVisible}
-          cancelFunction={() => {
-            navigation.goBack();
-            setLoginModalVisible(false);
-          }}
-        />
-      } */}
     </View>
   );
 };

@@ -11,8 +11,9 @@ import { useData } from "../../hook/useData";
 
 const Product = ({ route }) => {
   const { card, setCard } = useData();
+  console.log(card);
 
-  const [quantit, setQuantity] = useState(0);
+  const [quantit, setQuantity] = useState(card[0].quantity);
   // handle quantity add
   const handleQuantityAdd = () => {
     setQuantity(quantit + 1);
@@ -28,7 +29,7 @@ const Product = ({ route }) => {
 
   // function that add to cart
   const handleAddToCart = () => {
-    addToCart(item, card, setCard);
+    addToCart(item, card, setCard, quantit);
   };
 
   return (

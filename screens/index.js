@@ -6,4 +6,17 @@ import Profile from "./profile/Profile";
 import Product from "./product/Product";
 import Login from "./Auth/Login";
 import Register from "./Auth/Register";
-export { HomePage, Shopping, Search, Profile, Product, Login, Register };
+import CheckOut from "./shopping/CheckOut";
+import Terms from "./info/Terms";
+
+export {
+  HomePage,
+  Shopping,
+  Search,
+  Profile,
+  Product,
+  Login,
+  Register,
+  CheckOut,
+  Terms,
+};

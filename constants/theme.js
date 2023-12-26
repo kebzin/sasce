@@ -20,7 +20,7 @@ export const useCustomFonts = () => {
 
 export const COLORS = {
   // Error
-  error: "rgba(246, 86, 93, 1)",
+  error: "red",
   error80: "rgba(246, 86, 93, 0.8)",
   error60: "rgba(246, 86, 93, 0.6)",
   error20: "rgba(246, 86, 93, 0.2)",
@@ -41,7 +41,7 @@ export const COLORS = {
   secondary08: "rgba(161, 219, 245, 0.08)",
 
   // Success
-  success: "#4cceac",
+  success: "#D90166",
   success80: "rgba(253, 212, 70, 0.8)",
   success60: "rgba(253, 212, 70, 0.6)",
   success20: "rgba(253, 212, 70, 0.2)",

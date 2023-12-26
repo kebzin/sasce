@@ -80,6 +80,11 @@ const RenderItems = ({ item, setCard, card }) => {
             paddingHorizontal: SIZES.padding,
           }}
         />
+        {card.find((product) => product.id === item.id) ? (
+          <Text style={{ fontSize: 12, color: COLORS.error }}>
+            Already in cart
+          </Text>
+        ) : null}
       </View>
     </View>
   );

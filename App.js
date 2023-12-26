@@ -5,6 +5,7 @@ import { DataProvider } from "./providers/DataProvider";
 import StackNavigation from "./Navigation/StackNavigation";
 import { NavigationContainer } from "@react-navigation/native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { AuthProvider } from "./providers/AuthProvider";
 
 export default function App() {
   // loading the static font to
@@ -16,10 +17,12 @@ export default function App() {
     <NavigationContainer>
       <StatusBar style="auto" />
       <GestureHandlerRootView style={{ flex: 1 }}>
-        <DataProvider>
-          <StatusBar style="auto" />
-          <StackNavigation />
-        </DataProvider>
+        <AuthProvider>
+          <DataProvider>
+            <StatusBar style="auto" />
+            <StackNavigation />
+          </DataProvider>
+        </AuthProvider>
       </GestureHandlerRootView>
     </NavigationContainer>
   );
