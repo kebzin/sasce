@@ -8,12 +8,12 @@ import { StatusBar } from "expo-status-bar";
 import { IconeBotten, TextButton } from "../../components/common";
 import { addToCart } from "../../lib/Helpers/AddToCardHelper";
 import { useData } from "../../hook/useData";
+import { formatCurrency } from "../../lib/Helpers/TimeAgo";
 
 const Product = ({ route }) => {
   const { card, setCard } = useData();
-  console.log(card);
 
-  const [quantit, setQuantity] = useState(card[0].quantity);
+  const [quantit, setQuantity] = useState(card[0]?.quantity);
   // handle quantity add
   const handleQuantityAdd = () => {
     setQuantity(quantit + 1);
@@ -29,7 +29,7 @@ const Product = ({ route }) => {
 
   // function that add to cart
   const handleAddToCart = () => {
-    addToCart(item, card, setCard, quantit);
+    addToCart(item, card, setCard, quantit, (reduceQuantity = false));
   };
 
   return (
@@ -122,7 +122,7 @@ const Product = ({ route }) => {
           <View>
             <Text style={{ ...FONTS.body5, color: COLORS.grey }}>Price</Text>
             <Text style={{ color: COLORS.success, ...FONTS.h3 }}>
-              GMD {item.price}
+              {formatCurrency(item.price)}
             </Text>
           </View>
           <View

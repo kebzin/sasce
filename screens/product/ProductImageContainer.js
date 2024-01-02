@@ -19,7 +19,7 @@ const ProductImageContainer = ({
       <TouchableOpacity onPress={onImagePress}>
         <Image
           resizeMethod="auto"
-          source={image}
+          src={image}
           style={{
             resizeMode: "stretch",
             width: "100%",

@@ -37,22 +37,34 @@ const Profile = ({ navigation }) => {
             Title={"Account"}
             IconLeft={icons.person2}
             description="See your profile info"
-            IconRight={icons.arrowRight}
+            IconRight={icons.eye}
+          />
+
+          <RenderProfileContent
+            Title={"Orders"}
+            onPress={() => {
+              session === null
+                ? alert("please log in to see your your orders")
+                : navigation.navigate("orders");
+            }}
+            IconLeft={icons.shoppingBag}
+            description="See all your orders "
+            IconRight={icons.eye}
           />
 
           <RenderProfileContent
             Title={"Term of use"}
-            onPress={() => navigation.navigate("terms")}
+            onPress={() => navigation.navigate("term")}
             IconLeft={icons.condition}
             description="Manage all your items"
-            IconRight={icons.arrowRight}
+            IconRight={icons.eye}
           />
-          <RenderProfileContent
+          {/* <RenderProfileContent
             Title={"Support"}
             IconLeft={icons.bell}
-            IconRight={icons.arrowRight}
+            IconRight={icons.eye}
             description="Messages you sent or received"
-          />
+          /> */}
         </View>
 
         {session === null ? (

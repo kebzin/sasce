@@ -1,17 +1,17 @@
-import React, { useState } from "react";
-import { View, Text, Image, TouchableOpacity } from "react-native";
-
+import React, { useState, useEffect } from "react";
+import { View, Image, TouchableOpacity } from "react-native";
 import { IconeBotten } from "../../components/common";
 import { COLORS, SIZES, icons } from "../../constants";
 
 const ItemImage = ({
-  ratingPress,
   WithoutFeedBackPress,
   ContentContainerStyle,
   onImagePress,
   image,
 }) => {
+  const [imageLoaded, setImageLoaded] = useState(false);
   const [iconLike, setIconeLike] = useState(true);
+
   return (
     <View
       style={{ position: "relative", ...ContentContainerStyle }}
@@ -19,8 +19,8 @@ const ItemImage = ({
     >
       <TouchableOpacity onPress={onImagePress}>
         <Image
-          resizeMethod="auto"
-          source={image}
+          progressiveRenderingEnabled={true}
+          src={image}
           style={{
             resizeMode: "stretch",
             width: "100%",
@@ -30,7 +30,6 @@ const ItemImage = ({
           }}
         />
       </TouchableOpacity>
-
       <View
         style={{
           position: "absolute",
@@ -38,11 +37,10 @@ const ItemImage = ({
           right: 10,
           backgroundColor: COLORS.lightGrey,
           borderRadius: SIZES.base,
-
           alignItems: "center",
         }}
       >
-        <IconeBotten
+        {/* <IconeBotten
           containerStyle={{}}
           icone={iconLike ? icons.like : icons.likeFll}
           iconeStyle={{
@@ -51,7 +49,7 @@ const ItemImage = ({
             height: 30,
           }}
           Onpress={() => setIconeLike((prev) => !prev)}
-        />
+        /> */}
       </View>
     </View>
   );

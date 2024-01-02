@@ -1,12 +1,21 @@
-import { Keyboard, ScrollView, StyleSheet, Text, View } from "react-native";
+import {
+  ActivityIndicator,
+  Keyboard,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import React, { useState } from "react";
 import { SIZES, FONTS, COLORS } from "../../constants";
 import { InputField, TextButton } from "../../components/common";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { useAuth } from "../../hook/useAuth";
 import { useData } from "../../hook/useData";
+import { supabase } from "../../lib/superbase";
+import { formatCurrency } from "../../lib/Helpers/TimeAgo";
 
-const CheckOut = ({ route }) => {
+const CheckOut = ({ route, navigation }) => {
   const { check, shipping } = route.params;
   const { session } = useAuth();
   const { card, setCard } = useData();
@@ -23,6 +32,7 @@ const CheckOut = ({ route }) => {
     PhoneNumber: "",
     EmailAddress: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   //price calculation
   const quantity = card?.reduce((acc, item) => acc + item?.quantity, 0);
@@ -31,19 +41,57 @@ const CheckOut = ({ route }) => {
   const total = totalPrice;
 
   // handle submit
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     // Add your logic here for handling the form submission
-    for (let key in componentState) {
-      if (!componentState[key]) {
-        return alert(`${key} field: cannot be left blank`);
+    setIsLoading(true);
+    try {
+      for (let key in componentState) {
+        if (!componentState[key]) {
+          setIsLoading(false);
+          return alert(`${key} field: cannot be left blank`);
+        }
+
+        // store the data to the superbase
       }
+      const formdata = {
+        firstname: componentState.FirstName,
+        lastname: componentState.LastName,
+        countery_region: componentState.CounteryOrRegion,
+        streetaddress: componentState.StreetAddress,
+        town_city: componentState.Town_City,
+        state_country: componentState.State_Coutery,
+        postcode_zip: componentState.PostalCode,
+        phone: componentState.PhoneNumber,
+        email: componentState.EmailAddress,
+        oders: card,
+        user: session?.user.id,
+        deriverytype: check,
+        shippingfee: shipping,
+        shippingtype:
+          check === "Nagaw delivery company"
+            ? "Nagaw delivery company"
+            : "Local Delivery",
+        totalprice:
+          check === "Nagaw delivery company" ? totalPrice + 300 : totalPrice,
+      };
+
+      // store to superbase
+      // store the data to the superbase
+      const { data, error } = await supabase.from("order").insert(formdata);
+
+      if (error) {
+        setIsLoading(false);
+        return alert(error.message);
+      }
+      alert("Order submitted successfully!. we will soon get back to you");
+      navigation.navigate("Home");
+    } catch (error) {
+      alert(error.message);
+      setIsLoading(false);
+    } finally {
+      setIsLoading(false);
     }
   };
-  // Add the following prop to the TextButton component:
-  // onPress={handleSubmit}
-
-  // handle submit to the database
-  // handleSubmit
 
   return (
     <View
@@ -56,11 +104,12 @@ const CheckOut = ({ route }) => {
           onPress={() => Keyboard.dismiss()}
           style={{ overflow: "scroll" }}
         >
-          <Text style={{ paddingVertical: SIZES.padding }}>
-            Please enter you detail to continue
-          </Text>
-
-          <ScrollView style={{ display: "flex", gap: 5 }}>
+          <ScrollView
+            style={{ display: "flex", gap: 5, paddingHorizontal: SIZES.base }}
+          >
+            <Text style={{ paddingVertical: SIZES.padding }}>
+              Please enter you detail to continue
+            </Text>
             <View
               style={{
                 display: "flex",
@@ -272,17 +321,47 @@ const CheckOut = ({ route }) => {
               <View style={styles.shippingInfoItem}>
                 <Text style={styles.shippingInfoTitle}>{item?.title}</Text>
                 <Text style={{ ...FONTS.body5 }}>Q{item?.quantity}</Text>
-                <Text style={styles.shippingInfoPrice}>GMD {item?.price}</Text>
+                <Text style={styles.shippingInfoPrice}>
+                  {formatCurrency(item?.price)}
+                </Text>
               </View>
             </View>
           ))}
           <View style={{ paddingTop: SIZES.padding }}>
             <View style={styles.shippingInfoItem}>
               <Text style={styles.sumtitle}>Deleivery type</Text>
-              <Text style={styles.subtitledetails}>
-                {check ? " Nagaw delivery company" : "Local pickup"}
-              </Text>
+              <Text style={styles.subtitledetails}>{check}</Text>
             </View>
+
+            {check === "Bank Transfer" && (
+              <View style={{ paddingVertical: SIZES.padding }}>
+                <Text>Bank details</Text>
+
+                <View style={styles.shippingInfoItem}>
+                  <Text style={styles.shippingInfoTitle}>Bank Name</Text>
+                  <Text style={styles.shippingInfoPrice}>ECOBANK(GAMBIA)</Text>
+                </View>
+                <View style={styles.shippingInfoItem}>
+                  <Text style={styles.shippingInfoTitle}>Account Number</Text>
+                  <Text style={styles.shippingInfoPrice}>6240024479</Text>
+                </View>
+
+                <Text
+                  style={{
+                    ...FONTS.body5,
+                    lineHeight: 16,
+                    color: COLORS.grey,
+                    paddingTop: 10,
+                  }}
+                >
+                  Note: Please Make your payment directly into our bank account.
+                  Your order will not be shipped until the funds have cleared in
+                  our account. Send the screenshot of the patment to this number
+                  20231227
+                </Text>
+              </View>
+            )}
+
             <View style={styles.shippingInfoItem}>
               <Text style={styles.sumtitle}>Shipping</Text>
               <Text style={styles.subtitledetails}>{shipping}</Text>
@@ -290,13 +369,19 @@ const CheckOut = ({ route }) => {
             <View style={styles.shippingInfoItem}>
               <Text style={styles.sumtitle}>Sub Total</Text>
               <Text style={styles.subtitledetails}>
-                GMD {check ? totalPrice + 300 : totalPrice}
+                {check === "Nagaw delivery company"
+                  ? formatCurrency(totalPrice) + 300
+                  : formatCurrency(totalPrice)}
               </Text>
             </View>
           </View>
 
           <TextButton
-            // onPress={handleCheckoutProcceed}
+            prependContainer={
+              isLoading && <ActivityIndicator size={"large"} color={"#ffff"} />
+            }
+            disabled={isLoading}
+            onPress={handleSubmit}
             label={"Checkout"}
             labelStyle={styles.checkoutButtonLabel}
             contentContainerStyle={styles.checkoutButton}
@@ -334,6 +419,7 @@ const styles = StyleSheet.create({
     ...FONTS.body5,
     color: COLORS.light,
   },
+
   shippingInfoContainer: {
     paddingVertical: SIZES.padding,
     flex: 1,

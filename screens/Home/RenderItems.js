@@ -1,42 +1,46 @@
-import { Text, View } from "react-native";
+import React, { memo } from "react";
+import { View, Text, TouchableOpacity } from "react-native";
 import ItemImage from "./ItemImage";
 import { COLORS, SIZES, FONTS } from "../../constants";
 import { TextButton } from "../../components/common";
 import { useNavigation } from "@react-navigation/native";
 import { addToCart } from "../../lib/Helpers/AddToCardHelper";
+import { formatCurrency } from "../../lib/Helpers/TimeAgo";
 
-const RenderItems = ({ item, setCard, card }) => {
+const RenderItems = memo(({ item, setCard, card }) => {
   const navigation = useNavigation();
 
-  // function that add to cart
   const handleAddToCart = () => {
     addToCart(item, card, setCard);
   };
+
+  const containerStyle = {
+    backgroundColor: COLORS.light,
+    shadowColor: COLORS.light,
+    elevation: 10,
+    borderRadius: SIZES.radius,
+    flex: 1,
+  };
+
+  const textContainerStyle = {
+    paddingHorizontal: SIZES.base,
+    alignItems: "center",
+    paddingVertical: SIZES.padding,
+  };
+
   return (
-    <View
-      style={{
-        backgroundColor: COLORS.light,
-        shadowColor: COLORS.light,
-        elevation: 10,
-        borderRadius: SIZES.radius,
-        flex: 1,
-      }}
-    >
+    <View style={containerStyle}>
       <ItemImage
+        onImagePress={() => {
+          navigation.navigate("product", { item });
+        }}
         ContentContainerStyle={{
           height: SIZES.width / 2,
           width: "auto",
         }}
         image={item.image}
-        onImagePress={() => navigation.navigate("product", { item })}
       />
-      <View
-        style={{
-          paddingHorizontal: SIZES.base,
-          alignItems: "center",
-          paddingVertical: SIZES.padding,
-        }}
-      >
+      <View style={textContainerStyle}>
         <Text
           style={{
             ...FONTS.h5,
@@ -67,10 +71,10 @@ const RenderItems = ({ item, setCard, card }) => {
         <Text
           style={{ color: COLORS.success, ...FONTS.h3, textAlign: "center" }}
         >
-          GMD {item.price}
+          {formatCurrency(item.price)}
         </Text>
         <TextButton
-          onPress={() => handleAddToCart(item)}
+          onPress={handleAddToCart}
           label={"Add to cart"}
           labelStyle={{ ...FONTS.body5, color: COLORS.light }}
           contentContainerStyle={{
@@ -88,6 +92,6 @@ const RenderItems = ({ item, setCard, card }) => {
       </View>
     </View>
   );
-};
+});
 
 export default RenderItems;

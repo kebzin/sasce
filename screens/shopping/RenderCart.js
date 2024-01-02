@@ -4,7 +4,7 @@ import { TextButton } from "../../components/common";
 import { useNavigation } from "@react-navigation/native";
 import CartImageCntainer from "./CartImageCntainer";
 import { removeFromCart } from "../../lib/Helpers/AddToCardHelper";
-
+import { formatCurrency } from "../../lib/Helpers/TimeAgo";
 const RenderCart = ({ item, setCard, card }) => {
   const navigation = useNavigation();
 
@@ -12,6 +12,8 @@ const RenderCart = ({ item, setCard, card }) => {
   const handleRemoveCart = () => {
     removeFromCart(item, card, setCard);
   };
+
+  const totalPrice = Number(item.price) * Number(item.quantity);
   return (
     <View
       style={{
@@ -73,8 +75,9 @@ const RenderCart = ({ item, setCard, card }) => {
             {item.quantity}
           </Text>
         </View>
+
         <Text style={{ color: COLORS.success, ...FONTS.h3 }}>
-          GMD {item.price * item.quantity}
+          {formatCurrency(totalPrice)}
         </Text>
         <TextButton
           onPress={() => handleRemoveCart(item)}
