@@ -8,6 +8,11 @@ import Login from "./Auth/Login";
 import Register from "./Auth/Register";
 import CheckOut from "./shopping/CheckOut";
 import Terms from "./info/Terms";
+import OrderList from "./order/OrderList";
+import ClientOrderList from "./order/ClientOrderList";
+import AdminOrderList from "./order/AdminOrderList";
+import Term from "./term/Term";
+import Account from "./profile/Account";
 
 export {
   HomePage,
@@ -19,4 +24,9 @@ export {
   Register,
   CheckOut,
   Terms,
+  OrderList,
+  ClientOrderList,
+  AdminOrderList,
+  Term,
+  Account,
 };
