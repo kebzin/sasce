@@ -49,23 +49,39 @@ const Category = [
   },
   {
     id: 1,
-    label: "Cloth",
-  },
-  {
-    id: 2,
-    label: "Shoe",
-  },
-  {
-    id: 3,
-    label: "Weg",
-  },
-  {
-    id: 4,
     label: "Cream",
   },
   {
+    id: 2,
+    label: "Serum",
+  },
+  {
+    id: 3,
+    label: "Scrub",
+  },
+  {
+    id: 4,
+    label: "Oil",
+  },
+  {
     id: 5,
-    label: "Bag",
+    label: "Soap",
+  },
+  {
+    id: 6,
+    label: "Shower gel ",
+  },
+  {
+    id: 7,
+    label: "Spray",
+  },
+  {
+    id: 8,
+    label: "Hair product",
+  },
+  {
+    id: 9,
+    label: "Kids product",
   },
 ];
 
