@@ -74,6 +74,7 @@ const Search = () => {
         paddingHorizontal: SIZES.padding - 10,
         backgroundColor: COLORS.grey08,
         flex: 1,
+        paddingBottom:250
       }}
     >
       <View
@@ -84,7 +85,7 @@ const Search = () => {
           justifyContent: "space-between",
           flexWrap: "wrap",
 
-          gap: 5,
+          gap: 10,
         }}
       >
         <InputField

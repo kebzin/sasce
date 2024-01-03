@@ -13,6 +13,7 @@ import { formatCurrency } from "../../lib/Helpers/TimeAgo";
 const Shopping = () => {
   const { session } = useAuth();
   const [check, setCheck] = useState("Local pickup");
+ 
   const { card, setCard } = useData();
   const quantity = card?.reduce((acc, item) => acc + item?.quantity, 0);
   const totalPrice = card?.reduce((acc, item) => acc + item.price, 0);
@@ -26,13 +27,20 @@ const Shopping = () => {
     }
     if (card.length === 0) {
       return alert(
-        "you haven't select any product. please select a product to proceed to checkout"
+        "You haven't selected any product. Please select a product to proceed to checkout"
       );
     }
-    const shipping = check === "Nagaw delivery company" ? 300 : 0;
 
-    // when the check is true it mean the user sellect nagaw delivery method els if the check is false it means the user select local delivery
-    Navigation.navigate("checkout", { check, shipping });
+    // Determine the shipping cost based on the selected delivery method
+    let shippingCost = 0;
+    if (check === "Nagaw delivery company") {
+      shippingCost = 300;
+    } else if (check === "DHL Delivery") {
+      shippingCost = 4900;
+    }
+
+    // Navigate to checkout screen with shipping cost
+    Navigation.navigate("checkout", { deliveryMethod: check, shippingCost });
   };
 
   return (
@@ -92,14 +100,12 @@ const Shopping = () => {
             marginTop: 5,
           }}
         >
-          <Text style={{ ...FONTS.h5, color: COLORS.light80 }}>
-            Bank Transfer
-          </Text>
-          <CheckBox
-            isSelected={check === "Bank Transfer" ? true : false}
-            Onpress={() => setCheck("Bank Transfer")}
-          />
-        </View>
+   <Text style={{ ...FONTS.h5, color: COLORS.light80 }}>DHL</Text>
+        <CheckBox
+          isSelected={check === "DHL Delivery" ? true : false}
+          Onpress={() => setCheck("DHL Delivery")}
+        />
+      </View>
 
         <View style={styles.shippingInfoItem}>
           <Text style={styles.shippingInfoTitle}>Number of items</Text>
@@ -108,17 +114,17 @@ const Shopping = () => {
 
         {check === "Bank Transfer" && (
           <View style={{ paddingVertical: SIZES.padding }}>
-            <Text>Bank details</Text>
+            {/* <Text>Bank details</Text> */}
 
-            <View style={styles.shippingInfoItem}>
+            {/* <View style={styles.shippingInfoItem}>
               <Text style={styles.shippingInfoTitle}>Bank Name</Text>
               <Text style={styles.shippingInfoPrice}>ECOBANK(GAMBIA)</Text>
             </View>
             <View style={styles.shippingInfoItem}>
               <Text style={styles.shippingInfoTitle}>Account Number</Text>
               <Text style={styles.shippingInfoPrice}>6240024479</Text>
-            </View>
-
+            </View> */}
+{/* 
             <Text
               style={{
                 ...FONTS.body5,
@@ -131,26 +137,31 @@ const Shopping = () => {
               Your order will not be shipped until the funds have cleared in our
               account. Send the screenshot of the patment to this number
               20231227
-            </Text>
+            </Text> */}
           </View>
         )}
 
+<View style={styles.shippingInfoItem}>
+  <Text style={styles.shippingInfoTitle}>Shipping</Text>
+  <Text style={styles.shippingInfoPrice}>
+    {check === "Nagaw delivery company"
+      ? formatCurrency(300)
+      : check === "DHL Delivery"
+      ? formatCurrency(4900)
+      : formatCurrency(0)}
+  </Text>
+</View>
+
         <View style={styles.shippingInfoItem}>
-          <Text style={styles.shippingInfoTitle}>Shipping</Text>
-          <Text style={styles.shippingInfoPrice}>
-            {check === "Nagaw delivery company"
-              ? formatCurrency(300)
-              : formatCurrency(0)}
-          </Text>
-        </View>
-        <View style={styles.shippingInfoItem}>
-          <Text style={styles.shippingInfoTitle}>Sub Total</Text>
-          <Text style={styles.shippingInfoPrice}>
-            {check == "Nagaw delivery company"
-              ? formatCurrency(totalPrice + 300)
-              : formatCurrency(totalPrice)}
-          </Text>
-        </View>
+  <Text style={styles.shippingInfoTitle}>Sub Total</Text>
+  <Text style={styles.shippingInfoPrice}>
+    {check === "Nagaw delivery company"
+      ? formatCurrency(totalPrice + 300)
+      : check === "DHL Delivery"
+      ? formatCurrency(totalPrice + 4900)
+      : formatCurrency(totalPrice)}
+  </Text>
+</View>
         <TextButton
           onPress={handleCheckoutProcceed}
           label={"Checkout"}
