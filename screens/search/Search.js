@@ -67,12 +67,10 @@ const Search = () => {
     }
   };
   return (
-    <View
+    <SafeAreaView
       style={{
         paddingTop:
-          Platform.OS === "android"
-            ? StatusBar.currentHeight + 10
-            : SIZES.padding,
+          Platform.OS === "android" ? StatusBar.currentHeight + 10 : null,
         paddingHorizontal: SIZES.padding - 10,
         backgroundColor: COLORS.grey08,
         flex: 1,
@@ -184,7 +182,7 @@ const Search = () => {
 
         {data.length === 0 ? <Text>No Data found</Text> : null}
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
