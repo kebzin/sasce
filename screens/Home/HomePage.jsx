@@ -126,7 +126,13 @@ const HomePage = () => {
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
         renderItem={({ item }) => {
-          return <RenderItems item={item} card={card} setCard={setCard} />;
+          return (
+            <View>
+              {item?.image === null || item?.image === undefined ? null : (
+                <RenderItems item={item} card={card} setCard={setCard} />
+              )}
+            </View>
+          );
         }}
         initialNumToRender={10}
         numColumns={2}

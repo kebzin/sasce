@@ -74,7 +74,7 @@ const OrderList = () => {
   return (
     <View style={{ backgroundColor: COLORS.grey08, flex: 1 }}>
       {/* render base on the login status */}
-      {session.user.email !== "kebbawaiga@gmail.com" ? (
+      {session.user.email === "kebbawaiga@gmail.com" ? (
         <AdminOrderList
           MarkAsProcessing={MarkAsProcessing}
           handleOnEndReach={handleOnEndReach}

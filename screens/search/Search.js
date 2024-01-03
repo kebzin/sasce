@@ -105,13 +105,11 @@ const Search = () => {
         <TextButton
           onPress={handleSearch}
           contentContainerStyle={{
-            paddingTop: 10,
-            backgroundColor: "WHITE",
+            backgroundColor: null,
           }}
           label={"search"}
           labelStyle={{
             ...FONTS.body5,
-            paddingTop: 70,
             color: "black",
           }}
         />
