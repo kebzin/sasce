@@ -38,6 +38,7 @@ const AdminRenderComponent = memo(({ item, Processing }) => {
         <RenderTable lable={"Street Address"} name={item?.streetaddress} />
         <RenderTable lable={"State/Region "} name={item?.state_country} />
         <RenderTable lable={"Delivery Type"} name={item?.deriverytype} />
+        <RenderTable lable={"Payment Method"} name={item?.paymentmethod} />
 
         <RenderTable
           lable={"Shipping Fee"}

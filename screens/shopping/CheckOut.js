@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import { SIZES, FONTS, COLORS } from "../../constants";
-import { InputField, TextButton } from "../../components/common";
+import { CheckBox, InputField, TextButton } from "../../components/common";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { useAuth } from "../../hook/useAuth";
 import { useData } from "../../hook/useData";
@@ -16,7 +16,7 @@ import { supabase } from "../../lib/superbase";
 import { formatCurrency } from "../../lib/Helpers/TimeAgo";
 
 const CheckOut = ({ route, navigation }) => {
-  const { check, shipping } = route.params;
+  const { check, shippingCost } = route.params;
   const { session } = useAuth();
   const { card, setCard } = useData();
 
@@ -33,12 +33,12 @@ const CheckOut = ({ route, navigation }) => {
     EmailAddress: "",
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [Payment, SetPayment] = useState("Local pickup");
 
   //price calculation
   const quantity = card?.reduce((acc, item) => acc + item?.quantity, 0);
   const totalPrice = card?.reduce((acc, item) => acc + item.price, 0);
   // const shippingCharge = 300;
-  const total = totalPrice;
 
   // handle submit
   const handleSubmit = async () => {
@@ -64,9 +64,10 @@ const CheckOut = ({ route, navigation }) => {
         phone: componentState.PhoneNumber,
         email: componentState.EmailAddress,
         oders: card,
+        paymentmethod: Payment,
         user: session?.user.id,
         deriverytype: check,
-        shippingfee: shipping,
+        shippingfee: shippingCost,
         shippingtype:
           check === "Nagaw delivery company"
             ? "Nagaw delivery company"
@@ -75,6 +76,9 @@ const CheckOut = ({ route, navigation }) => {
           check === "Nagaw delivery company" ? totalPrice + 300 : totalPrice,
       };
 
+      if (Payment === "") {
+        return alert("Please choose the payment method you prefere");
+      }
       // store to superbase
       // store the data to the superbase
       const { data, error } = await supabase.from("order").insert(formdata);
@@ -333,9 +337,43 @@ const CheckOut = ({ route, navigation }) => {
               <Text style={styles.subtitledetails}>{check}</Text>
             </View>
 
+            {/* payment option */}
+            <Text
+              style={{
+                ...FONTS.h5,
+                color: COLORS.primary,
+                paddingVertical: SIZES.base,
+              }}
+            >
+              Choose Payment Method
+            </Text>
+            <View style={styles.shippingInfoItem}>
+              <Text style={styles.shippingInfoTitle}>Bank Transfer</Text>
+              <CheckBox
+                isSelected={Payment === "Bank Transfer" ? true : false}
+                Onpress={() => SetPayment("Bank Transfer")}
+              />
+            </View>
+            <View style={styles.shippingInfoItem}>
+              <Text style={styles.shippingInfoTitle}>Cash on delivery</Text>
+              <CheckBox
+                isSelected={Payment === "Cash on delivery" ? true : false}
+                Onpress={() => SetPayment("Cash on delivery")}
+              />
+            </View>
+            <View style={styles.shippingInfoItem}>
+              <Text style={styles.shippingInfoTitle}>Cash on delivery</Text>
+              <CheckBox
+                isSelected={Payment === "Cash on Pick up" ? true : false}
+                Onpress={() => SetPayment("Cash on Pick up")}
+              />
+            </View>
+
             {check === "Bank Transfer" && (
               <View style={{ paddingVertical: SIZES.padding }}>
-                <Text>Bank details</Text>
+                <Text style={{ ...FONTS.body4, color: COLORS.primary }}>
+                  Bank details
+                </Text>
 
                 <View style={styles.shippingInfoItem}>
                   <Text style={styles.shippingInfoTitle}>Bank Name</Text>
@@ -362,16 +400,32 @@ const CheckOut = ({ route, navigation }) => {
               </View>
             )}
 
+            <Text
+              style={{
+                ...FONTS.body4,
+                color: COLORS.primary,
+                paddingVertical: SIZES.base,
+              }}
+            >
+              Pricing
+            </Text>
+
             <View style={styles.shippingInfoItem}>
               <Text style={styles.sumtitle}>Shipping</Text>
-              <Text style={styles.subtitledetails}>{shipping}</Text>
+              <Text style={styles.subtitledetails}>
+                {formatCurrency(shippingCost)}
+              </Text>
             </View>
             <View style={styles.shippingInfoItem}>
               <Text style={styles.sumtitle}>Sub Total</Text>
               <Text style={styles.subtitledetails}>
-                {check === "Nagaw delivery company"
-                  ? formatCurrency(totalPrice) + 300
-                  : formatCurrency(totalPrice)}
+                {formatCurrency(totalPrice)}
+              </Text>
+            </View>
+            <View style={styles.shippingInfoItem}>
+              <Text style={styles.sumtitle}> Total</Text>
+              <Text style={styles.subtitledetails}>
+                {formatCurrency(totalPrice + shippingCost)}
               </Text>
             </View>
           </View>
@@ -396,6 +450,12 @@ const CheckOut = ({ route, navigation }) => {
 export default CheckOut;
 
 const styles = StyleSheet.create({
+  checkBoxContainer: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 5,
+  },
   inputText: {
     ...FONTS.body5,
     color: COLORS.dark60,

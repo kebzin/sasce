@@ -18,12 +18,32 @@ const OrderList = () => {
   const featchOrders = async () => {
     setLoading(true);
     try {
+      if (session.user.email === "kebbawaiga@gmail.com") {
+        const { data, error } = await supabase
+          .from("order")
+          .select("*")
+          .order("created_at", { ascending: false, nullsFirst: false })
+          .range(orders.length, orders.length + 1 * orders.length + pageSize)
+          .limit(pageSize);
+
+        if (error) {
+          setLoading(false);
+          setIsError(true);
+          console.log("error", error);
+          setError(error.message);
+          return;
+        }
+
+        setOrders(data || []);
+        return;
+      }
       const { data, error } = await supabase
         .from("order")
         .select("*")
         .order("created_at", { ascending: false, nullsFirst: false })
         .range(orders.length, orders.length + 1 * orders.length + pageSize)
-        .limit(pageSize);
+        .limit(pageSize)
+        .eq("user", session.user.id);
 
       if (error) {
         setLoading(false);
@@ -68,8 +88,6 @@ const OrderList = () => {
   const handleOnEndReach = async () => {
     await featchOrders();
   };
-
-  console.log(session);
 
   return (
     <View style={{ backgroundColor: COLORS.grey08, flex: 1 }}>
