@@ -70,11 +70,13 @@ const Search = () => {
     <View
       style={{
         paddingTop:
-          Platform.OS === "android" ? StatusBar.currentHeight + 10 : null,
+          Platform.OS === "android"
+            ? StatusBar.currentHeight + 10
+            : statusbar.currentHeight + 10,
         paddingHorizontal: SIZES.padding - 10,
         backgroundColor: COLORS.grey08,
         flex: 1,
-        paddingBottom:250
+        paddingBottom: 250,
       }}
     >
       <View
@@ -89,7 +91,7 @@ const Search = () => {
         }}
       >
         <InputField
-          containerStyle={{ flex: 1 , paddingTop:70}}
+          containerStyle={{ flex: 1 }}
           value={search}
           onChange={(text) => setSearch(text)}
           Placeholder={"Search for product ..."}
@@ -105,14 +107,14 @@ const Search = () => {
         <TextButton
           onPress={handleSearch}
           contentContainerStyle={{
-           
-            paddingTop:10,
-           backgroundColor:'WHITE'
-       
+            paddingTop: 10,
+            backgroundColor: "WHITE",
           }}
           label={"search"}
           labelStyle={{
-            ...FONTS.body5, paddingTop:70,color:"black"
+            ...FONTS.body5,
+            paddingTop: 70,
+            color: "black",
           }}
         />
       </View>
