@@ -84,14 +84,14 @@ const Search = () => {
           justifyContent: "space-between",
           flexWrap: "wrap",
 
-          gap: 15,
+          gap: 5,
         }}
       >
         <InputField
-          containerStyle={{ flex: 1 }}
+          containerStyle={{ flex: 1 , paddingTop:70}}
           value={search}
           onChange={(text) => setSearch(text)}
-          Placeholder={"Searc for product ..."}
+          Placeholder={"Search for product ..."}
           prependComponent={
             <IconeBotten
               icone={icons.search}
@@ -104,20 +104,20 @@ const Search = () => {
         <TextButton
           onPress={handleSearch}
           contentContainerStyle={{
-            backgroundColor: COLORS.success,
-            height: 50,
-            borderRadius: SIZES.radius,
-            paddingHorizontal: SIZES.padding,
+           
+            paddingTop:10,
+           backgroundColor:'WHITE'
+       
           }}
           label={"search"}
           labelStyle={{
-            ...FONTS.body5,
+            ...FONTS.body5, paddingTop:70,color:"black"
           }}
         />
       </View>
 
       {/* suggest for you */}
-      <Text style={{ ...FONTS.body4, color: COLORS.dark60, paddingTop: 10 }}>
+      <Text style={{ ...FONTS.body4, color: COLORS.dark60, paddingTop: 25 }}>
         Suggest for you
       </Text>
       <View
@@ -127,7 +127,7 @@ const Search = () => {
           flexDirection: "row",
           flexWrap: "wrap",
           gap: 15,
-          marginTop: 10,
+          marginTop: 5,
         }}
       >
         {constants.Category?.map((item, index) => {
