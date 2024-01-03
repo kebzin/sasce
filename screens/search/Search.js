@@ -72,7 +72,7 @@ const Search = () => {
         paddingTop:
           Platform.OS === "android"
             ? StatusBar.currentHeight + 10
-            : statusbar.currentHeight + 10,
+            : SIZES.padding,
         paddingHorizontal: SIZES.padding - 10,
         backgroundColor: COLORS.grey08,
         flex: 1,
