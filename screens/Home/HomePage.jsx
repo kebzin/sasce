@@ -125,15 +125,13 @@ const HomePage = () => {
         keyExtractor={(item) => item.id.toString()}
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
-        renderItem={({ item }) => {
-          return (
-            <View>
-              {item?.image === null || item?.image === undefined ? null : (
-                <RenderItems item={item} card={card} setCard={setCard} />
-              )}
-            </View>
-          );
-        }}
+        renderItem={({ item }) => (
+          <View style={{ width: '48%', marginHorizontal: '1%', marginBottom: 20 }}>
+            {item?.image === null || item?.image === undefined ? null : (
+              <RenderItems item={item} card={card} setCard={setCard} />
+            )}
+          </View>
+        )}
         initialNumToRender={10}
         numColumns={2}
         columnWrapperStyle={{

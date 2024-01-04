@@ -14,7 +14,8 @@ import { useAuth } from "../../hook/useAuth";
 import { useData } from "../../hook/useData";
 import { supabase } from "../../lib/superbase";
 import { formatCurrency } from "../../lib/Helpers/TimeAgo";
-
+import { reset } from '@react-navigation/core';
+import { CommonActions } from '@react-navigation/native';
 const CheckOut = ({ route, navigation }) => {
   const { check, shippingCost } = route.params;
   const { session } = useAuth();
@@ -98,6 +99,9 @@ const CheckOut = ({ route, navigation }) => {
   };
 
   return (
+    <ScrollView
+    style={{ display: "flex", gap: 5, paddingHorizontal: SIZES.base }}
+  >
     <View
       style={{
         flex: 1,
@@ -108,9 +112,7 @@ const CheckOut = ({ route, navigation }) => {
           onPress={() => Keyboard.dismiss()}
           style={{ overflow: "scroll" }}
         >
-          <ScrollView
-            style={{ display: "flex", gap: 5, paddingHorizontal: SIZES.base }}
-          >
+        
             <Text style={{ paddingVertical: SIZES.padding }}>
               Please enter you detail to continue
             </Text>
@@ -293,21 +295,13 @@ const CheckOut = ({ route, navigation }) => {
                 }
               />
             </View>
-          </ScrollView>
+        
 
-          {/* <TextButton
-          onPress={handleSubmit}
-          label={"Checkout"}
-          labelStyle={styles.checkoutButtonLabel}
-          contentContainerStyle={styles.checkoutButton}
-        /> */}
+   
         </TouchableWithoutFeedback>
       </View>
-      <ScrollView
-        style={{ flex: 1.5, overflow: "scroll" }}
-        showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}
-      >
+  
+     
         <View style={styles.shippingInfoContainer}>
           <View>
             <Text>
@@ -349,11 +343,22 @@ const CheckOut = ({ route, navigation }) => {
             </Text>
             <View style={styles.shippingInfoItem}>
               <Text style={styles.shippingInfoTitle}>Bank Transfer</Text>
+
               <CheckBox
                 isSelected={Payment === "Bank Transfer" ? true : false}
                 Onpress={() => SetPayment("Bank Transfer")}
               />
+           
+             
+             
             </View>
+            <Text style={styles.shippingInfoPrice}>Bank Name : ECOBANK(GAMBIA)</Text>
+            <Text style={styles.shippingInfoPrice}>Account Name: SAACS TAILORING ENTERPRISE </Text>
+              <Text style={styles.shippingInfoPrice}>Account Number: 6240024479</Text>
+              <Text style={styles.shippingInfoPrice}>BIC/Swift : CITIUS33</Text>
+     
+
+      
             <View style={styles.shippingInfoItem}>
               <Text style={styles.shippingInfoTitle}>Cash on delivery</Text>
               <CheckBox
@@ -361,13 +366,7 @@ const CheckOut = ({ route, navigation }) => {
                 Onpress={() => SetPayment("Cash on delivery")}
               />
             </View>
-            <View style={styles.shippingInfoItem}>
-              <Text style={styles.shippingInfoTitle}>Cash on delivery</Text>
-              <CheckBox
-                isSelected={Payment === "Cash on Pick up" ? true : false}
-                Onpress={() => SetPayment("Cash on Pick up")}
-              />
-            </View>
+      
 
             {check === "Bank Transfer" && (
               <View style={{ paddingVertical: SIZES.padding }}>
@@ -440,9 +439,11 @@ const CheckOut = ({ route, navigation }) => {
             labelStyle={styles.checkoutButtonLabel}
             contentContainerStyle={styles.checkoutButton}
           />
+          
         </View>
-      </ScrollView>
+
     </View>
+    </ScrollView>
   );
 };
 {
@@ -479,8 +480,11 @@ const styles = StyleSheet.create({
     ...FONTS.body5,
     color: COLORS.light,
   },
-
   shippingInfoContainer: {
+ 
+    top: 15,
+    left: 0,
+    right: 0,
     paddingVertical: SIZES.padding,
     flex: 1,
     borderTopRightRadius: SIZES.radius + 15,
@@ -489,14 +493,17 @@ const styles = StyleSheet.create({
     shadowColor: "#000",
     shadowOffset: {
       width: 1,
-      height: 2,
+      height: 5,
     },
     paddingHorizontal: SIZES.padding,
     shadowOpacity: 3.25,
     shadowRadius: 3.84,
     elevation: 10,
     flexDirection: "column",
+    paddingBottom: 100,
   },
+  
+  
   shippingInfoItem: {
     display: "flex",
     alignItems: "center",
