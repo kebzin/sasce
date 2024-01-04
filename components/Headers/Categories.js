@@ -24,8 +24,10 @@ const Categories = ({ data, setData }) => {
         style={[
           styles.itemContent,
           {
-            backgroundColor: isActive ? COLORS.success : COLORS.support5_08,
+            backgroundColor: isActive ? COLORS.success : 'rgba(0, 0, 0, 0)',
+
             height: 50,
+         
           },
         ]}
         onPress={() => handleItemClick(item)}
