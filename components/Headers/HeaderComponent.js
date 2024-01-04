@@ -12,10 +12,14 @@ import {
 import { COLORS, icons, SIZES, FONTS, images } from "../../constants/index";
 import { useData } from "../../hook/useData";
 // import { useAuth } from "../../hook/useAuth";
-
+import { useNavigation } from "@react-navigation/native";
 const HeaderComponent = ({ scrollY, onPress, Title, messagePress }) => {
+  const navigation = useNavigation();
   const { card } = useData();
-
+  const handleCartPress = () => {
+    // Navigate to the cart screen here
+    navigation.navigate("cart");
+  };
   return (
     <SafeAreaView style={styles.container}>
       <Animated.View
@@ -30,7 +34,7 @@ const HeaderComponent = ({ scrollY, onPress, Title, messagePress }) => {
           </View>
           <Text style={styles.title}>{Title}</Text>
           <View style={{ flexDirection: "row", alignItems: "center", gap: 20 }}>
-            <TouchableOpacity onPress={onPress} style={styles.bellContainer}>
+            <TouchableOpacity onPress={handleCartPress} style={styles.bellContainer}>
               <Image source={icons.shoppingCart} style={styles.bellIcon} />
               <Text
                 style={{

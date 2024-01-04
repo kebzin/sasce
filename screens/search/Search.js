@@ -76,7 +76,7 @@ const Search = () => {
         paddingHorizontal: SIZES.padding - 10,
         backgroundColor: COLORS.grey08,
         flex: 1,
-        paddingBottom: 250,
+        
       }}
     >
       <View
@@ -130,6 +130,7 @@ const Search = () => {
           flexWrap: "wrap",
           gap: 15,
           marginTop: 5,
+    
         }}
       >
         {constants.Category?.map((item, index) => {
@@ -177,7 +178,7 @@ const Search = () => {
           contentContainerStyle={{
             rowGap: 20,
             marginTop: 15,
-            marginBottom: SIZES.padding,
+            marginBottom: SIZES.padding,paddingBottom:200
           }}
         />
 
