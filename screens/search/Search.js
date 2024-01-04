@@ -112,7 +112,7 @@ const Search = () => {
           label={"search"}
           labelStyle={{
             ...FONTS.body5,
-            paddingTop: 70,
+
             color: "black",
           }}
         />
