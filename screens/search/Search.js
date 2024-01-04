@@ -1,6 +1,7 @@
 import {
   ActivityIndicator,
   FlatList,
+  Keyboard,
   Platform,
   SafeAreaView,
   StatusBar,
@@ -12,7 +13,10 @@ import React, { useState } from "react";
 import SearchComponent from "../../components/Headers/SearchComponent";
 import { COLORS, SIZES, FONTS, constants, icons } from "../../constants";
 import { IconeBotten, InputField, TextButton } from "../../components/common";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import {
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+} from "react-native-gesture-handler";
 import RenderItems from "../Home/RenderItems";
 import { useData } from "../../hook/useData";
 import { supabase } from "../../lib/superbase";
@@ -79,110 +83,112 @@ const Search = () => {
         paddingBottom: 250,
       }}
     >
-      <View
-        style={{
-          display: "flex",
-          alignItems: "center",
-          flexDirection: "row",
-          justifyContent: "space-between",
-          flexWrap: "wrap",
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+        <View
+          style={{
+            display: "flex",
+            alignItems: "center",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            flexWrap: "wrap",
 
-          gap: 10,
-        }}
-      >
-        <InputField
-          containerStyle={{ flex: 1 }}
-          value={search}
-          onChange={(text) => setSearch(text)}
-          Placeholder={"Search for product ..."}
-          prependComponent={
-            <IconeBotten
-              icone={icons.search}
-              iconeStyle={{
-                tintColor: COLORS.grey,
-              }}
-            />
-          }
-        />
-        <TextButton
-          onPress={handleSearch}
-          contentContainerStyle={{
-            backgroundColor: null,
-          }}
-          label={"search"}
-          labelStyle={{
-            ...FONTS.body5,
-
-            color: "black",
-          }}
-        />
-      </View>
-
-      {/* suggest for you */}
-      <Text style={{ ...FONTS.body4, color: COLORS.dark60, paddingTop: 25 }}>
-        Suggest for you
-      </Text>
-      <View
-        style={{
-          display: "flex",
-          alignItems: "center",
-          flexDirection: "row",
-          flexWrap: "wrap",
-          gap: 15,
-          marginTop: 5,
-        }}
-      >
-        {constants.Category?.map((item, index) => {
-          return (
-            <TouchableOpacity
-              key={item.id}
-              onPress={() => setSearch(item.label)}
-            >
-              {item.label === "All category" ? null : (
-                <Text style={{ ...FONTS.body5, color: COLORS.grey }}>
-                  {item.label}
-                </Text>
-              )}
-            </TouchableOpacity>
-          );
-        })}
-      </View>
-
-      {/* search result */}
-
-      {loading && (
-        <View>
-          <ActivityIndicator color={COLORS.success} />
-        </View>
-      )}
-      {isError && (
-        <View>
-          <Text>{Error}</Text>
-        </View>
-      )}
-      <View>
-        <FlatList
-          data={data}
-          keyExtractor={(item) => item.id}
-          showsVerticalScrollIndicator={false}
-          showsHorizontalScrollIndicator={false}
-          renderItem={({ item }) => {
-            return <RenderItems item={item} card={card} setCard={setCard} />;
-          }}
-          initialNumToRender={10}
-          numColumns={2}
-          columnWrapperStyle={{
             gap: 10,
           }}
-          contentContainerStyle={{
-            rowGap: 20,
-            marginTop: 15,
-            marginBottom: SIZES.padding,
-          }}
-        />
+        >
+          <InputField
+            containerStyle={{ flex: 1 }}
+            value={search}
+            onChange={(text) => setSearch(text)}
+            Placeholder={"Search for product ..."}
+            prependComponent={
+              <IconeBotten
+                icone={icons.search}
+                iconeStyle={{
+                  tintColor: COLORS.grey,
+                }}
+              />
+            }
+          />
+          <TextButton
+            onPress={handleSearch}
+            contentContainerStyle={{
+              backgroundColor: null,
+            }}
+            label={"search"}
+            labelStyle={{
+              ...FONTS.body5,
 
-        {data.length === 0 ? <Text>No Data found</Text> : null}
-      </View>
+              color: "black",
+            }}
+          />
+        </View>
+
+        {/* suggest for you */}
+        <Text style={{ ...FONTS.body4, color: COLORS.dark60, paddingTop: 25 }}>
+          Suggest for you
+        </Text>
+        <View
+          style={{
+            display: "flex",
+            alignItems: "center",
+            flexDirection: "row",
+            flexWrap: "wrap",
+            gap: 15,
+            marginTop: 5,
+          }}
+        >
+          {constants.Category?.map((item, index) => {
+            return (
+              <TouchableOpacity
+                key={item.id}
+                onPress={() => setSearch(item.label)}
+              >
+                {item.label === "All category" ? null : (
+                  <Text style={{ ...FONTS.body5, color: COLORS.grey }}>
+                    {item.label}
+                  </Text>
+                )}
+              </TouchableOpacity>
+            );
+          })}
+        </View>
+
+        {/* search result */}
+
+        {loading && (
+          <View>
+            <ActivityIndicator color={COLORS.success} />
+          </View>
+        )}
+        {isError && (
+          <View>
+            <Text>{Error}</Text>
+          </View>
+        )}
+        <View>
+          <FlatList
+            data={data}
+            keyExtractor={(item) => item.id}
+            showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}
+            renderItem={({ item }) => {
+              return <RenderItems item={item} card={card} setCard={setCard} />;
+            }}
+            initialNumToRender={10}
+            numColumns={2}
+            columnWrapperStyle={{
+              gap: 10,
+            }}
+            contentContainerStyle={{
+              rowGap: 20,
+              marginTop: 15,
+              marginBottom: SIZES.padding,
+            }}
+          />
+
+          {data.length === 0 ? <Text>No Data found</Text> : null}
+        </View>
+      </TouchableWithoutFeedback>
     </SafeAreaView>
   );
 };
