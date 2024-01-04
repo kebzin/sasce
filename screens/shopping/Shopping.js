@@ -13,7 +13,7 @@ import { formatCurrency } from "../../lib/Helpers/TimeAgo";
 const Shopping = () => {
   const { session } = useAuth();
   const [check, setCheck] = useState("Local pickup");
- 
+
   const { card, setCard } = useData();
   const quantity = card?.reduce((acc, item) => acc + item?.quantity, 0);
   const totalPrice = card?.reduce((acc, item) => acc + item.price, 0);
@@ -40,7 +40,7 @@ const Shopping = () => {
     }
 
     // Navigate to checkout screen with shipping cost
-    Navigation.navigate("checkout", { deliveryMethod: check, shippingCost });
+    Navigation.navigate("checkout", { check, shippingCost });
   };
 
   return (
@@ -100,12 +100,12 @@ const Shopping = () => {
             marginTop: 5,
           }}
         >
-   <Text style={{ ...FONTS.h5, color: COLORS.light80 }}>DHL</Text>
-        <CheckBox
-          isSelected={check === "DHL Delivery" ? true : false}
-          Onpress={() => setCheck("DHL Delivery")}
-        />
-      </View>
+          <Text style={{ ...FONTS.h5, color: COLORS.light80 }}>DHL</Text>
+          <CheckBox
+            isSelected={check === "DHL Delivery" ? true : false}
+            Onpress={() => setCheck("DHL Delivery")}
+          />
+        </View>
 
         <View style={styles.shippingInfoItem}>
           <Text style={styles.shippingInfoTitle}>Number of items</Text>
@@ -124,7 +124,7 @@ const Shopping = () => {
               <Text style={styles.shippingInfoTitle}>Account Number</Text>
               <Text style={styles.shippingInfoPrice}>6240024479</Text>
             </View> */}
-{/* 
+            {/* 
             <Text
               style={{
                 ...FONTS.body5,
@@ -141,27 +141,27 @@ const Shopping = () => {
           </View>
         )}
 
-<View style={styles.shippingInfoItem}>
-  <Text style={styles.shippingInfoTitle}>Shipping</Text>
-  <Text style={styles.shippingInfoPrice}>
-    {check === "Nagaw delivery company"
-      ? formatCurrency(300)
-      : check === "DHL Delivery"
-      ? formatCurrency(4900)
-      : formatCurrency(0)}
-  </Text>
-</View>
+        <View style={styles.shippingInfoItem}>
+          <Text style={styles.shippingInfoTitle}>Shipping</Text>
+          <Text style={styles.shippingInfoPrice}>
+            {check === "Nagaw delivery company"
+              ? formatCurrency(300)
+              : check === "DHL Delivery"
+              ? formatCurrency(4900)
+              : formatCurrency(0)}
+          </Text>
+        </View>
 
         <View style={styles.shippingInfoItem}>
-  <Text style={styles.shippingInfoTitle}>Sub Total</Text>
-  <Text style={styles.shippingInfoPrice}>
-    {check === "Nagaw delivery company"
-      ? formatCurrency(totalPrice + 300)
-      : check === "DHL Delivery"
-      ? formatCurrency(totalPrice + 4900)
-      : formatCurrency(totalPrice)}
-  </Text>
-</View>
+          <Text style={styles.shippingInfoTitle}>Sub Total</Text>
+          <Text style={styles.shippingInfoPrice}>
+            {check === "Nagaw delivery company"
+              ? formatCurrency(totalPrice + 300)
+              : check === "DHL Delivery"
+              ? formatCurrency(totalPrice + 4900)
+              : formatCurrency(totalPrice)}
+          </Text>
+        </View>
         <TextButton
           onPress={handleCheckoutProcceed}
           label={"Checkout"}
