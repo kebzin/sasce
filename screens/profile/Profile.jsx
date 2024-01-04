@@ -13,12 +13,21 @@ import {
 import { IconeBotten, TextButton } from "../../components/common";
 import { COLORS, FONTS, SIZES, icons } from "../../constants";
 import { useAuth } from "../../hook/useAuth";
-
+import { Share } from 'react-native';
 // import LoginPopUp from "../../healper/LoginPopUp";
 
 const Profile = ({ navigation }) => {
   const { session, signOut } = useAuth();
-
+  const handleShareApp = async () => {
+    try {
+      await Share.share({
+        message: 'Check out this amazing app called SAACS in the Play Store & App Store !', // You can customize the message
+        // Add more options as needed
+      });
+    } catch (error) {
+      console.error('Error sharing app:', error.message);
+    }
+  };
   return (
     <View style={styles.container}>
       <View style={styles.headerTopContainer}></View>
@@ -59,12 +68,24 @@ const Profile = ({ navigation }) => {
             description="Manage all your items"
             IconRight={icons.eye}
           />
+
+<RenderProfileContent
+        Title={"Share App"}
+        onPress={handleShareApp}
+        IconLeft={icons.share}
+        description="Share this app with others"
+        IconRight={icons.arrowRight}
+      />
+
           {/* <RenderProfileContent
             Title={"Support"}
             IconLeft={icons.bell}
             IconRight={icons.eye}
             description="Messages you sent or received"
           /> */}
+
+
+
         </View>
 
         {session === null ? (

@@ -6,7 +6,7 @@ import ClientComponent from "./ClientComponent";
 
 const ClientOrderList = ({ orders, handleOnEndReach, featchOrders }) => {
   return (
-    <View>
+    <View style={{paddingBottom:60}}>
       <Text
         style={{ textAlign: "center", ...FONTS.h2, paddingTop: SIZES.base }}
       >

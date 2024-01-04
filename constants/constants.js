@@ -73,7 +73,7 @@ const Category = [
   },
   {
     id: 7,
-    label: "perfume",
+    label: "Spray",
   },
   {
     id: 8,

@@ -100,7 +100,7 @@ const ClientComponent = memo(({ item }) => {
 
                 <RenderTable lable={"Quantity"} name={parsedElement.quantity} />
                 <RenderTable
-                  lable={"price"}
+                  lable={"price:"}
                   name={formatCurrency(
                     parsedElement.price * parsedElement.quantity
                   )}

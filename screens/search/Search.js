@@ -70,7 +70,9 @@ const Search = () => {
     <SafeAreaView
       style={{
         paddingTop:
-          Platform.OS === "android" ? StatusBar.currentHeight + 10 : null,
+          Platform.OS === "android"
+            ? StatusBar.currentHeight + 10
+            : SIZES.padding,
         paddingHorizontal: SIZES.padding - 10,
         backgroundColor: COLORS.grey08,
         flex: 1,
@@ -110,6 +112,7 @@ const Search = () => {
           label={"search"}
           labelStyle={{
             ...FONTS.body5,
+            paddingTop: 70,
             color: "black",
           }}
         />
