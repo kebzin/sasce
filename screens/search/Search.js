@@ -108,19 +108,20 @@ const Search = () => {
               />
             }
           />
-          <TextButton
-            onPress={handleSearch}
-            contentContainerStyle={{
-              backgroundColor: null,
-            }}
-            label={"search"}
-            labelStyle={{
-              ...FONTS.body5,
-              backgroundColor: COLORS.success,
-              paddingHorizontal: SIZES.base,
-              borderRadius: SIZES.base,
-            }}
-          />
+         <TouchableOpacity onPress={handleSearch}>
+    <TextButton
+      contentContainerStyle={{
+        backgroundColor: null,
+      }}
+      label={"search"}
+      labelStyle={{
+        ...FONTS.body5,
+        backgroundColor: COLORS.success,
+        paddingHorizontal: SIZES.base,
+        borderRadius: SIZES.base,
+      }}
+    />
+  </TouchableOpacity>
         </View>
 
         {/* suggest for you */}
@@ -182,7 +183,7 @@ const Search = () => {
             contentContainerStyle={{
               rowGap: 20,
               marginTop: 15,
-              marginBottom: SIZES.padding,
+              marginBottom: SIZES.padding,paddingBottom:500
             }}
           />
 
