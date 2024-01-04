@@ -20,7 +20,6 @@ const RenderItems = memo(({ item, setCard, card }) => {
     elevation: 10,
     borderRadius: SIZES.radius,
     flex: 1,
-    width: SIZES.width / 2,
   };
 
   const textContainerStyle = {
