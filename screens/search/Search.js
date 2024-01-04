@@ -80,7 +80,6 @@ const Search = () => {
         paddingHorizontal: SIZES.padding - 10,
         backgroundColor: COLORS.grey08,
         flex: 1,
-        
       }}
     >
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -117,74 +116,75 @@ const Search = () => {
             label={"search"}
             labelStyle={{
               ...FONTS.body5,
-
-              color: "black",
+              backgroundColor: COLORS.success,
+              paddingHorizontal: SIZES.base,
+              borderRadius: SIZES.base,
             }}
           />
         </View>
 
-      {/* suggest for you */}
-      <Text style={{ ...FONTS.body4, color: COLORS.dark60, paddingTop: 25 }}>
-        Suggest for you
-      </Text>
-      <View
-        style={{
-          display: "flex",
-          alignItems: "center",
-          flexDirection: "row",
-          flexWrap: "wrap",
-          gap: 15,
-          marginTop: 5,
-        }}
-      >
-        {constants.Category?.map((item, index) => {
-          return (
-            <TouchableOpacity
-              key={item.id}
-              onPress={() => setSearch(item.label)}
-            >
-              {item.label === "All category" ? null : (
-                <Text style={{ ...FONTS.body5, color: COLORS.grey }}>
-                  {item.label}
-                </Text>
-              )}
-            </TouchableOpacity>
-          );
-        })}
-      </View>
+        {/* suggest for you */}
+        <Text style={{ ...FONTS.body4, color: COLORS.dark60, paddingTop: 25 }}>
+          Suggest for you
+        </Text>
+        <View
+          style={{
+            display: "flex",
+            alignItems: "center",
+            flexDirection: "row",
+            flexWrap: "wrap",
+            gap: 15,
+            marginTop: 5,
+          }}
+        >
+          {constants.Category?.map((item, index) => {
+            return (
+              <TouchableOpacity
+                key={item.id}
+                onPress={() => setSearch(item.label)}
+              >
+                {item.label === "All category" ? null : (
+                  <Text style={{ ...FONTS.body5, color: COLORS.grey }}>
+                    {item.label}
+                  </Text>
+                )}
+              </TouchableOpacity>
+            );
+          })}
+        </View>
 
         {/* search result */}
 
-      {loading && (
+        {loading && (
+          <View>
+            <ActivityIndicator color={COLORS.success} />
+          </View>
+        )}
+        {isError && (
+          <View>
+            <Text>{Error}</Text>
+          </View>
+        )}
         <View>
-          <ActivityIndicator color={COLORS.success} />
-        </View>
-      )}
-      {isError && (
-        <View>
-          <Text>{Error}</Text>
-        </View>
-      )}
-      <View>
-        <FlatList
-          data={data}
-          keyExtractor={(item) => item.id}
-          showsVerticalScrollIndicator={false}
-          showsHorizontalScrollIndicator={false}
-          renderItem={({ item }) => {
-            return <RenderItems item={item} card={card} setCard={setCard} />;
-          }}
-          initialNumToRender={10}
-          numColumns={2}
-          columnWrapperStyle={{
-            gap: 10,
-          }}
-          contentContainerStyle={{
-            rowGap: 20,
-            marginTop: 15,
-            marginBottom: SIZES.padding,
-          }}
-        />
+          <FlatList
+            data={data}
+            keyExtractor={(item) => item.id}
+            showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}
+            renderItem={({ item }) => {
+              return <RenderItems item={item} card={card} setCard={setCard} />;
+            }}
+            initialNumToRender={10}
+            numColumns={2}
+            columnWrapperStyle={{
+              gap: 10,
+            }}
+            contentContainerStyle={{
+              rowGap: 20,
+              marginTop: 15,
+              marginBottom: SIZES.padding,
+            }}
+          />
 
           {data.length === 0 ? <Text>No Data found</Text> : null}
         </View>
