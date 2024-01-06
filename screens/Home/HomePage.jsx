@@ -92,7 +92,6 @@ const HomePage = () => {
     >
       <HeaderComponent />
       <SearchComponent />
-      <Categories data={data} setData={setData} />
       <FlatList
         ListEmptyComponent={
           <View>
