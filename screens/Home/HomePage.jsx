@@ -168,7 +168,40 @@ const HomePage = () => {
     >
       <HeaderComponent />
       <SearchComponent />
-      <Categories data={data} setData={setData} />
+  {/* Loading Indicator */}
+  {loadingMore && (
+        <View
+        style={{
+          position: 'absolute',
+          top: Dimensions.get('window').height / 2 - 30, // Centered vertically
+          width: '100%',
+          backgroundColor: 'rgba(255, 255, 255, 0.8)', // Adjust the alpha value (0.8 for 80% transparency)
+          paddingVertical: 10,
+          justifyContent: 'center',
+          alignItems: 'center',
+          zIndex: 2, // Higher zIndex to appear above FlatList
+        }}
+        >
+          <Animated.Image
+            source={require('../Home/SCS.jpg')}
+            style={{
+              transform: [{ rotate: interpolatedRotateAnimation }],
+              width: 60, // Adjust the size as needed
+              height: 60, // Adjust the size as needed
+            }}
+          />
+          <Text
+            style={{
+              marginTop: 10,
+              color: COLORS.dark,
+              alignSelf: 'center',
+              fontSize: 20,
+            }}
+          >
+            Loading More Products
+          </Text>
+        </View>
+      )}
       <FlatList
         ListEmptyComponent={
           <View>
