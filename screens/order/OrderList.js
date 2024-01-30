@@ -18,7 +18,7 @@ const OrderList = () => {
   const featchOrders = async () => {
     setLoading(true);
     try {
-      if (session.user.email === "kebbawaiga@gmail.com") {
+      if (session.user.email === "saacs111@gmail.com") {
         const { data, error } = await supabase
           .from("order")
           .select("*")
@@ -92,7 +92,7 @@ const OrderList = () => {
   return (
     <View style={{ backgroundColor: COLORS.grey08, flex: 1 }}>
       {/* render base on the login status */}
-      {session.user.email === "kebbawaiga@gmail.com" ? (
+      {session.user.email === "saacs111@gmail.com" ? (
         <AdminOrderList
           MarkAsProcessing={MarkAsProcessing}
           handleOnEndReach={handleOnEndReach}

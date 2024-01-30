@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   ScrollView,
   Platform,
-  StatusBar,
+  StatusBar,Alert
 } from "react-native";
 import { IconeBotten, TextButton } from "../../components/common";
 import { COLORS, FONTS, SIZES, icons } from "../../constants";
@@ -91,7 +91,7 @@ const Profile = ({ navigation }) => {
         {session === null ? (
           <TextButton
             onPress={() => navigation.navigate("login")}
-            label={"Logg In"}
+            label={"LogIn"}
             contentContainerStyle={{
               height: 50,
               borderRadius: SIZES.radius,
@@ -101,15 +101,36 @@ const Profile = ({ navigation }) => {
           />
         ) : (
           <TextButton
-            onPress={() => signOut()}
-            label={"Log out"}
-            contentContainerStyle={{
-              height: 50,
-              borderRadius: SIZES.radius,
-              backgroundColor: COLORS.success,
-            }}
-            labelStyle={{ color: COLORS.light }}
-          />
+          onPress={() => {
+            Alert.alert(
+              'Logout',
+              'Are you sure you want to log out?',
+              [
+                {
+                  text: 'Cancel',
+                  style: 'cancel',
+                },
+                {
+                  text: 'Logout',
+                  onPress: () => {
+                    // Call your signOut function here
+                    signOut();
+                    // Optionally, show another alert indicating successful logout
+                    Alert.alert('Logout Successful', 'You have successfully logged out.');
+                  },
+                },
+              ],
+              { cancelable: false }
+            );
+          }}
+          label={"Log out"}
+          contentContainerStyle={{
+            height: 50,
+            borderRadius: SIZES.radius,
+            backgroundColor: COLORS.success,
+          }}
+          labelStyle={{ color: COLORS.light }}
+        />
         )}
         {/* Repeat the above code blocks for other sections */}
       </ScrollView>

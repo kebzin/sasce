@@ -73,15 +73,25 @@ const Category = [
   },
   {
     id: 7,
-    label: "Spray",
+    label: "Perfume",
   },
   {
     id: 8,
-    label: "Hair product",
+    label: "Hair",
   },
   {
     id: 9,
-    label: "Kids product",
+    label: "Kids ",
+  },
+  {
+    id: 10,
+    label: "Sets ",
+  },  {
+    id: 11,
+    label: "Accessary ",
+  },  {
+    id: 12,
+    label: "Tea",
   },
 ];
 

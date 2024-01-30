@@ -97,7 +97,9 @@ const CheckOut = ({ route, navigation }) => {
       setIsLoading(false);
     }
   };
-
+  const subTotal = card.reduce((total, product) => {
+    return total + product.price * product.quantity;
+  }, 0);
   return (
     <ScrollView
     style={{ display: "flex", gap: 5, paddingHorizontal: SIZES.base }}
@@ -320,7 +322,7 @@ const CheckOut = ({ route, navigation }) => {
                 <Text style={styles.shippingInfoTitle}>{item?.title}</Text>
                 <Text style={{ ...FONTS.body5 }}>Q{item?.quantity}</Text>
                 <Text style={styles.shippingInfoPrice}>
-                  {formatCurrency(item?.price)}
+                  {formatCurrency(item?.price * item?.quantity)}
                 </Text>
               </View>
             </View>
@@ -422,11 +424,11 @@ const CheckOut = ({ route, navigation }) => {
               </Text>
             </View>
             <View style={styles.shippingInfoItem}>
-              <Text style={styles.sumtitle}> Total</Text>
-              <Text style={styles.subtitledetails}>
-                {formatCurrency(totalPrice + shippingCost)}
-              </Text>
-            </View>
+  <Text style={styles.sumtitle}>Total Amount</Text>
+  <Text style={styles.subtitledetails}>
+    {formatCurrency(subTotal + shippingCost)}
+  </Text>
+</View>
           </View>
 
           <TextButton

@@ -84,7 +84,7 @@ const Login = ({ navigation }) => {
             )
           }
           onPress={HandlePaswordReset}
-          label={"LoggIn"}
+          label={"LogIn"}
           contentContainerStyle={styles.buttonContainer}
           labelStyle={styles.buttonLabel}
         />
@@ -94,7 +94,7 @@ const Login = ({ navigation }) => {
             backgroundColor: null,
             paddingVertical: SIZES.padding,
           }}
-          label={"Dont't have an account "}
+          label={"Do not have an account "}
           labelStyle={{
             ...FONTS.body5,
             color: COLORS.success,

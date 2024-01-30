@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View,Alert } from "react-native";
 import React, { memo, useState } from "react";
 import ItemImage from "../Home/ItemImage";
 import { COLORS, SIZES, FONTS } from "../../constants";
@@ -14,7 +14,66 @@ const AdminRenderComponent = memo(({ item, Processing }) => {
   const [popupmessage, setpopupmessage] = useState();
   const [statusmessage, setstatusMessage] = useState("");
   const [complete, setComplete] = useState(false);
-
+  const handleDeleteOrder = async () => {
+    try {
+      // Display the alert asynchronously
+      await new Promise((resolve) => {
+        Alert.alert(
+          'Confirm Deletion',
+          'Are you sure you want to delete this order?',
+          [
+            {
+              text: 'Cancel',
+              style: 'cancel',
+              onPress: () => resolve(false), // Resolve with false when Cancel is pressed
+            },
+            {
+              text: 'Delete',
+              onPress: async () => {
+                try {
+                  // Call your Superbase helper function to delete the order
+                  await deleteOrderFromSuperbase(item.id);
+                  // Handle success (e.g., navigate back to orders screen)
+                } catch (error) {
+                  console.error('Error deleting order:', error);
+                  // Handle error
+                } finally {
+                  resolve(true); // Resolve with true when Delete is pressed and order is deleted
+                }
+              },
+            },
+          ],
+          { cancelable: true }
+        );
+      });
+  
+      // Handle the result of the alert
+      // If true, the user pressed "Delete"; if false, the user pressed "Cancel"
+      // You can add more logic here if needed
+    } catch (error) {
+      console.error('Error displaying alert:', error);
+    }
+  };
+  
+  const deleteOrderFromSuperbase = async (orderId) => {
+    try {
+      // Assuming you have set up Superbase client
+      const { data, error } = await supabase
+        .from('order') // Replace with your actual orders table name
+        .delete()
+        .eq('id', orderId);
+  
+      if (error) {
+        throw error;
+      }
+  
+      // Return the deleted data if needed
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  };
+  
   return (
     <View
       style={{
@@ -97,10 +156,10 @@ const AdminRenderComponent = memo(({ item, Processing }) => {
             setpopupmessage(
               "Confirming completion indicates that the transaction has been fully processed. Are you sure you want to proceed?"
             ),
-              setstatusMessage("Complet"),
+              setstatusMessage("Complete"),
               setpopup(true);
           }}
-          label={"Mark as Compleat"}
+          label={"Mark as Complete"}
           labelStyle={{
             ...FONTS.body5,
           }}
@@ -113,6 +172,12 @@ const AdminRenderComponent = memo(({ item, Processing }) => {
           }}
         />
       </View>
+      <View style={{ backgroundColor: COLORS.light, borderRadius: SIZES.base, paddingVertical: SIZES.base, paddingHorizontal: SIZES.base }}>
+      {/* Your existing code */}
+  
+    </View>
+
+
 
       <Text style={{ ...FONTS.h3, paddingVertical: SIZES.base }}>
         Order Items

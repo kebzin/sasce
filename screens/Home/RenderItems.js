@@ -27,7 +27,7 @@ const RenderItems = memo(({ item, setCard, card }) => {
     alignItems: "center",
     paddingVertical: SIZES.padding,
   };
-
+  const quantityInCart = card.find((product) => product.id === item.id)?.quantity || 0;
   return (
     <View style={containerStyle}>
       <ItemImage
@@ -74,22 +74,22 @@ const RenderItems = memo(({ item, setCard, card }) => {
           {formatCurrency(item.price)}
         </Text>
         <TextButton
-          onPress={handleAddToCart}
-          label={"Add to cart"}
-          labelStyle={{ ...FONTS.body5, color: COLORS.light }}
-          contentContainerStyle={{
-            borderRadius: SIZES.radius,
-            height: 40,
-            backgroundColor: COLORS.success,
-            paddingHorizontal: SIZES.padding,
-          }}
-        />
-        {card.find((product) => product.id === item.id) ? (
-          <Text style={{ fontSize: 12, color: COLORS.error }}>
-            Already in cart
-          </Text>
-        ) : null}
-      </View>
+        onPress={handleAddToCart}
+        label={`Add to cart (${quantityInCart})`}
+        labelStyle={{ ...FONTS.body5, color: COLORS.light }}
+        contentContainerStyle={{
+          borderRadius: SIZES.radius,
+          height: 40,
+          backgroundColor: COLORS.success,
+          paddingHorizontal: SIZES.padding,
+        }}
+      />
+      {card.find((product) => product.id === item.id) ? (
+        <Text style={{ fontSize: 12, color: COLORS.error }}>
+          Already in cart. Keep tapping "Add to cart" to increase the quantity.
+        </Text>
+      ) : null}
+    </View>
     </View>
   );
 });

@@ -98,7 +98,7 @@ const Search = () => {
             containerStyle={{ flex: 1 }}
             value={search}
             onChange={(text) => setSearch(text)}
-            Placeholder={"Search for product ..."}
+            Placeholder={"Search for product Name / Category"}
             prependComponent={
               <IconeBotten
                 icone={icons.search}
@@ -125,8 +125,8 @@ const Search = () => {
         </View>
 
         {/* suggest for you */}
-        <Text style={{ ...FONTS.body4, color: COLORS.dark60, paddingTop: 25 }}>
-          Suggest for you
+        <Text style={{  paddingTop: 25 , fontWeight:900,color:'grey',margin:10}}>
+          Available Categories 
         </Text>
         <View
           style={{
@@ -145,7 +145,7 @@ const Search = () => {
                 onPress={() => setSearch(item.label)}
               >
                 {item.label === "All category" ? null : (
-                  <Text style={{ ...FONTS.body5, color: COLORS.grey }}>
+                  <Text style={{ color: COLORS.grey,  fontWeight:300,color:'grey'}}>
                     {item.label}
                   </Text>
                 )}

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { ActivityIndicator, Animated, Text, View } from "react-native";
+import { ActivityIndicator, Animated, Text, View,  Dimensions , Modal,} from "react-native";
 import HeaderComponent from "../../components/Headers/HeaderComponent";
 import { COLORS, SIZES, FONTS } from "../../constants";
 import SearchComponent from "../../components/Headers/SearchComponent";
@@ -59,6 +59,61 @@ const HomePage = () => {
       return null;
     }
 
+    const [showLoadingModal, setShowLoadingModal] = useState(true);
+
+    // Assume you have a function to load your images
+    const loadImages = async () => {
+      // Your image loading logic here
+  
+      // After loading all images, hide the loading modal
+      setShowLoadingModal(false);
+    };
+  
+    useEffect(() => {
+      // Call the function to load images when the component mounts
+      loadImages();
+    }, []);
+
+    return (
+      <View style={{ flex: 1, backgroundColor: COLORS.grey08, paddingHorizontal: 10 }}>
+        {/* Your existing components */}
+        {/* ... */}
+  
+        {/* Loading Modal */}
+        <Modal transparent={true} visible={showLoadingModal} animationType="slide">
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            }}
+          >
+            <ActivityIndicator size="large" color={COLORS.primary} />
+            <Text style={{ marginTop: 10, color: COLORS.dark }}>Loading images...</Text>
+          </View>
+        </Modal>
+  
+        {/* Your existing loading bar */}
+        {loadingMore && (
+          <Animated.View
+            style={{
+              position: 'absolute',
+              bottom: 0,
+              width: '100%',
+              opacity: animatedOpacity,
+              backgroundColor: COLORS.light,
+              paddingVertical: 10,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <ActivityIndicator size="small" color={COLORS.primary} />
+            <Text style={{ marginTop: 5, color: COLORS.dark }}>Loading more data...</Text>
+          </Animated.View>
+        )}
+      </View>
+    );
     return (
       <View style={{ paddingVertical: 20 }}>
         <ActivityIndicator size="large" color={COLORS.primary} />
@@ -81,6 +136,27 @@ const HomePage = () => {
     outputRange: [1, 0],
     extrapolate: "clamp",
   });
+  useEffect(() => {
+    if (loadingMore) {
+      rotateImage();
+    }
+  }, [loadingMore]);
+
+  const rotateImage = () => {
+    Animated.loop(
+      Animated.timing(rotationValue, {
+        toValue: 1,
+        duration: 1000, // Adjust the duration as needed
+        useNativeDriver: true,
+      })
+    ).start();
+  };
+  const rotationValue = useRef(new Animated.Value(0)).current;
+
+  const interpolatedRotateAnimation = rotationValue.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['0deg', '360deg'],
+  });
 
   return (
     <View
@@ -92,7 +168,40 @@ const HomePage = () => {
     >
       <HeaderComponent />
       <SearchComponent />
-      <Categories data={data} setData={setData} />
+  {/* Loading Indicator */}
+  {loadingMore && (
+        <View
+        style={{
+          position: 'absolute',
+          top: Dimensions.get('window').height / 2 - 30, // Centered vertically
+          width: '100%',
+          backgroundColor: 'rgba(255, 255, 255, 0.8)', // Adjust the alpha value (0.8 for 80% transparency)
+          paddingVertical: 10,
+          justifyContent: 'center',
+          alignItems: 'center',
+          zIndex: 2, // Higher zIndex to appear above FlatList
+        }}
+        >
+          <Animated.Image
+            source={require('../Home/SCS.jpg')}
+            style={{
+              transform: [{ rotate: interpolatedRotateAnimation }],
+              width: 60, // Adjust the size as needed
+              height: 60, // Adjust the size as needed
+            }}
+          />
+          <Text
+            style={{
+              marginTop: 10,
+              color: COLORS.dark,
+              alignSelf: 'center',
+              fontSize: 20,
+            }}
+          >
+            Loading More Products
+          </Text>
+        </View>
+      )}
       <FlatList
         ListEmptyComponent={
           <View>
@@ -132,7 +241,7 @@ const HomePage = () => {
             )}
           </View>
         )}
-        initialNumToRender={10}
+        initialNumToRender={50}
         numColumns={2}
         columnWrapperStyle={{
           gap: 10,

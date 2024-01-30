@@ -5,6 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 import CartImageCntainer from "./CartImageCntainer";
 import { removeFromCart } from "../../lib/Helpers/AddToCardHelper";
 import { formatCurrency } from "../../lib/Helpers/TimeAgo";
+import { Product } from '../product/Product';
 const RenderCart = ({ item, setCard, card }) => {
   const navigation = useNavigation();
 

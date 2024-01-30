@@ -32,7 +32,7 @@ const SearchComponent = ({ scrollY, Onpress, filterPress }) => {
         onPress={() => {
           Navigation.navigate("Search");
         }}
-        Placeholder={"Search"}
+        Placeholder={"Search on Category or Product Name"}
         prependComponent={
           <Image source={icons.search} style={style.ImputField} />
         }

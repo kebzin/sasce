@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, Text, View,ActivityIndicator ,Image } from "react-native";
 import React, { useState } from "react";
 import ItemImage from "../Home/ItemImage";
 import ProductImageContainer from "./ProductImageContainer";
@@ -31,12 +31,59 @@ const Product = ({ route }) => {
   const handleAddToCart = () => {
     addToCart(item, card, setCard, quantit, (reduceQuantity = false));
   };
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+
+  const handleImageLoad = () => {
+    setLoading(false);
+  };
+
+  const handleImageError = () => {
+    setLoading(false);
+    setError(true);
+  };
 
   return (
+  
     <View style={{ flex: 1, backgroundColor: COLORS.light }}>
+  <ScrollView>
       <View style={{ height: SIZES.height / 2.4 }}>
-        <ProductImageContainer image={item.image} />
-      </View>
+      <ProductImageContainer image={item.image} onLoad={handleImageLoad} />
+      {loading && (
+        <View
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            justifyContent: 'center',
+            alignItems: 'center',
+            paddingTop: 100, // Add additional padding at the top
+          }}
+        >
+      
+        </View>
+      )}
+    </View>
+      {!error && !loading && (
+        <Image
+          source={{ uri: item.image }}
+          style={{ flex: 1, resizeMode: 'cover' }}
+          onLoad={handleImageLoad}
+          onError={handleImageError}
+        />
+      )}
+      {error && (
+        <View
+          style={{
+            ...StyleSheet.absoluteFill,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <Text style={{ color: COLORS.error, fontSize: 16 }}>Image failed to load</Text>
+        </View>
+      )}
       <View
         style={{
           paddingHorizontal: SIZES.padding,
@@ -133,7 +180,7 @@ const Product = ({ route }) => {
               gap: 10,
             }}
           >
-            <IconeBotten
+            {/* <IconeBotten
               Onpress={handleQuantityAdd}
               containerStyle={{
                 backgroundColor: COLORS.success,
@@ -142,8 +189,8 @@ const Product = ({ route }) => {
               }}
               icone={icons.add}
               iconeStyle={{ tintColor: COLORS.light }}
-            />
-            <Text style={{ ...FONTS.h1 }}>{quantit}</Text>
+            /> */}
+            {/* <Text style={{ ...FONTS.h1 }}>{quantit}</Text>
             <IconeBotten
               Onpress={handleQuantityRemove}
               containerStyle={{
@@ -153,7 +200,7 @@ const Product = ({ route }) => {
               }}
               icone={icons.remove}
               iconeStyle={{ tintColor: COLORS.light }}
-            />
+            /> */}
           </View>
         </View>
         {card.find((product) => product.id === item.id) ? (
@@ -175,6 +222,7 @@ const Product = ({ route }) => {
           }}
         />
       </View>
+      </ScrollView>
     </View>
   );
 };

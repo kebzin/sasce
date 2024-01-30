@@ -2,9 +2,9 @@
   "expo": {
     "name": "SAACS",
     "slug": "SAACS",
-    "version": "1.0.0",
+    "version": "1.0.3",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/SCS.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/SCS.png",
@@ -16,14 +16,14 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.ismailajavis.SAACS"
+      "bundleIdentifier": "com.ismailajavis.SAACS2","buildNumber": "6"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/SCS.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.ismailajavis.SAACS"
+      "package": "com.ismailajavis.SAACS",   "versionCode": 5
     },
     "web": {
       "favicon": "./assets/favicon.png"

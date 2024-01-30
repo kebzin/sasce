@@ -1,23 +1,46 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FlatList, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { constants, SIZES, FONTS, COLORS } from "../../constants";
 import { useData } from "../../hook/useData";
 import { filterItemsByCategory } from "../../lib/Helpers/FilterHelper";
 
-const Categories = ({ data, setData }) => {
-  const { ItemList, setFilter } = useData();
-  const [activeItem, setActiveItem] = useState(constants.Category[0].id);
 
-  // hanle the click of the category item and filter base on that category
+const Categories = ({ data, setData }) => {
+  const { Category } = constants;
+  const [selectedCategory, setSelectedCategory] = useState(Category[0].id);
+  const [isLoading, setLoading] = useState(false);
+  const [shouldFetchData, setShouldFetchData] = useState(true); // Flag to control data fetching
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+
+      // Check if the selected category is "All" and the flag is set
+      if (Category[selectedCategory]?.label.toLowerCase() === 'all category' && shouldFetchData) {
+        setData(data); // Set data to the original list if "All" category is selected
+        setLoading(false); // Stop loading immediately
+      } else {
+        // Filter items based on the selected category
+        const filteredItems = data.filter(
+          (item) => item.category?.toLowerCase() === Category[selectedCategory].label.toLowerCase()
+        );
+        setData(filteredItems);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [selectedCategory, shouldFetchData]);
+
+  // handle the click of the category item and filter based on that category
   const handleItemClick = (item) => {
-    setActiveItem(item.id);
-    const filteredItems = filterItemsByCategory(data, item.label, ItemList);
-    setData(filteredItems);
+    setShouldFetchData(selectedCategory !== item.id); // Set the flag based on whether the category changed
+    setSelectedCategory(item.id);
   };
 
   // render item list of the category
   const renderItem = ({ item }) => {
-    const isActive = activeItem === item.id;
+    const isActive = selectedCategory === item.id;
 
     return (
       <TouchableOpacity
@@ -25,16 +48,14 @@ const Categories = ({ data, setData }) => {
           styles.itemContent,
           {
             backgroundColor: isActive ? COLORS.success : 'rgba(0, 0, 0, 0)',
-
             height: 50,
-         
           },
         ]}
         onPress={() => handleItemClick(item)}
       >
         <Text
           style={{
-            textAlign: "center",
+            textAlign: 'center',
             padding: SIZES.base,
             ...FONTS.body4,
             color: isActive ? COLORS.light : COLORS.dark,
@@ -49,20 +70,15 @@ const Categories = ({ data, setData }) => {
   return (
     <FlatList
       horizontal
-      data={constants.Category}
+      data={Category}
       keyExtractor={(item) => item.id.toString()}
       showsVerticalScrollIndicator={false}
       showsHorizontalScrollIndicator={false}
       renderItem={renderItem}
-      extraData={activeItem}
       contentContainerStyle={{ columnGap: 15 }}
-      onEndReachedThreshold={0.1}
-      onEndReached={() => {}}
     />
   );
 };
-
-export default Categories;
 
 const styles = StyleSheet.create({
   itemContent: {
@@ -72,3 +88,5 @@ const styles = StyleSheet.create({
     // Set the desired width (adjust as needed)
   },
 });
+
+export default Categories;

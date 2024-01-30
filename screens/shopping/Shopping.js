@@ -42,7 +42,9 @@ const Shopping = () => {
     // Navigate to checkout screen with shipping cost
     Navigation.navigate("checkout", { check, shippingCost });
   };
-
+  const subTotal = card.reduce((total, product) => {
+    return total + product.price * product.quantity;
+  }, 0);
   return (
     <View style={{ flex: 1 }}>
       <View style={styles.contentContainer}>
@@ -151,17 +153,18 @@ const Shopping = () => {
               : formatCurrency(0)}
           </Text>
         </View>
-
         <View style={styles.shippingInfoItem}>
-          <Text style={styles.shippingInfoTitle}>Sub Total</Text>
-          <Text style={styles.shippingInfoPrice}>
-            {check === "Nagaw delivery company"
-              ? formatCurrency(totalPrice + 300)
-              : check === "DHL Delivery"
-              ? formatCurrency(totalPrice + 4900)
-              : formatCurrency(totalPrice)}
-          </Text>
-        </View>
+  <Text style={styles.shippingInfoTitle}>Total</Text>
+  <Text style={styles.shippingInfoPrice}>
+    {check === "Nagaw delivery company"
+      ? formatCurrency(subTotal + 300)
+      : check === "DHL Delivery"
+      ? formatCurrency(subTotal + 4900)
+      : check === "Local pickup"
+      ? formatCurrency(subTotal)
+      : formatCurrency(subTotal)}
+  </Text>
+</View>
         <TextButton
           onPress={handleCheckoutProcceed}
           label={"Checkout"}
@@ -220,7 +223,7 @@ const Shopping = () => {
                   label={"Create account"}
                   contentContainerStyle={{
                     flex: 1,
-                    height: 40,
+                    height: 35,
                     borderRadius: SIZES.radius,
                     backgroundColor: COLORS.success,
                     marginRight: SIZES.base,
@@ -237,7 +240,7 @@ const Shopping = () => {
                   label={"LoggIn"}
                   contentContainerStyle={{
                     flex: 1,
-                    height: 40,
+                    height: 35,
                     borderRadius: SIZES.radius,
                     backgroundColor: COLORS.success,
                     marginRight: SIZES.base,
